@@ -1,0 +1,21 @@
+using System;
+
+namespace CsLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int objectDistance;     // дистанция до объекта
+            string playerName;      // имя игрока
+            bool openDoor;          // проверка открытия двери
+            ulong visibleStars;     // кол-во видимых звезд
+            int viewingAngle;       // видимый угол обзора
+            uint trackNumber;       // номер пути
+            string nameCity;        // название города
+            float elevationAngle;   // угол возвышения в расчетах траектории снаряда
+            ushort charLevel;       // уровень персонажа
+            char chAlphabet;         // символ массива алфавита
+        }
+    }
+}
