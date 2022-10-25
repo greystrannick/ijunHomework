@@ -10,11 +10,11 @@ namespace CsLight
             string playerName;
             bool canOpenDoor;
             ulong visibleStars;
-            decimal charasterMoney;
+            decimal characterMoney;
             uint trackNumber;
             double resultMath;
             float elevationAngle;
-            ushort charasterLevel;
+            ushort characterLevel;
             char charAlphabet;
         }
     }
