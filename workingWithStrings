@@ -9,13 +9,13 @@ namespace CsLight
             Console.WriteLine("Как вас зовут? ");
             string respondentName = Console.ReadLine();
             Console.WriteLine("Сколько вам лет? ");
-            string respondentAge = Console.ReadLine();
+            ushort respondentAge = ushort.Parse(Console.ReadLine());
             Console.WriteLine("Ваш знак зодиака? ");
             string respondentZodiac = Console.ReadLine();
             Console.WriteLine("Где вы работаете? ");
             string respondentWork = Console.ReadLine();
 
-            Console.WriteLine("Вас зовут "+ respondentName +", вам "+ respondentAge +" год, ваш знак зодиака "+ respondentZodiac +", вы работаете "+ respondentWork +".");
+            Console.WriteLine($"Вас зовут {respondentName}, вам {respondentAge} год, ваш знак зодиака {respondentZodiac}, вы работаете {respondentWork}."); ;
         }
 
     }
