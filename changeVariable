@@ -1,0 +1,23 @@
+using System;
+
+namespace CsLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string name = "Иванов";
+            string surname = "Пётр";
+            string changeVariable;
+
+            Console.WriteLine($"Имя: {name}. Фамилия: {surname}.");
+
+            changeVariable = name;
+            name = surname;
+            surname = changeVariable;
+
+            Console.WriteLine($"Имя: {name}. Фамилия: {surname}.");
+        }
+
+    }
+}
