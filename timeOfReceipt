@@ -1,0 +1,26 @@
+using System;
+
+namespace CsLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int patientsInLine;
+            int receptionTime=10;
+            int waitingTime;
+            int waitingHour;
+            int waitingMinutes;
+
+            Console.Write("Сколько старушек в очереди перед вами?: ");
+            patientsInLine = Convert.ToInt32(Console.ReadLine());
+            
+            waitingTime = patientsInLine * receptionTime;
+            waitingHour = waitingTime / 60;
+            waitingMinutes = waitingTime % 60;
+
+            Console.WriteLine($"Вы простоите в очереди {waitingHour} часа" +
+                $"  {waitingMinutes} минут.");
+        }
+    }
+}
