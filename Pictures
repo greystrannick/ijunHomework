@@ -1,0 +1,19 @@
+using System;
+
+namespace CsLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int numberImages = 52;
+            int numberRow = 3;
+            int resultRow;
+            int resultRemainder;
+
+            resultRow = numberImages / numberRow;
+            resultRemainder = numberImages % numberRow;
+            Console.WriteLine($"Количество рядов: {resultRow}, количество картинок сверх меры: {resultRemainder}.");
+        }
+    }
+}
