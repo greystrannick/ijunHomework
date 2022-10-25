@@ -7,18 +7,18 @@ namespace CsLight
         static void Main(string[] args)
         {
             int characterMoney;
-            int crystalCount;
+            int crystalsCount;
             int crystalPrice = 5;
 
             Console.WriteLine("Добро пожаловать в игровой магазин 'У ГНОМА!'");
             Console.Write("Сколько золота у вас есть?: ");
             characterMoney = Convert.ToInt32(Console.ReadLine());
             Console.Write("Сколько кристаллов вы хотите купить?: ");
-            crystalCount = Convert.ToInt32(Console.ReadLine());
+            crystalsCount = Convert.ToInt32(Console.ReadLine());
 
-            characterMoney -= crystalCount * crystalPrice;
+            characterMoney -= crystalsCount * crystalPrice;
 
-            Console.WriteLine($"У вас в сумке {crystalCount} кристаллов," +
+            Console.WriteLine($"У вас в сумке {crystalsCount} кристаллов," +
                 $" а в кармане {characterMoney} золотых монет.");
         }
     }
