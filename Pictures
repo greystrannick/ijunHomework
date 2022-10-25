@@ -6,13 +6,13 @@ namespace CsLight
     {
         static void Main(string[] args)
         {
-            int numberImages = 52;
-            int numberRow = 3;
+            int numberOfImages = 52;
+            int numberOfCompletedRows = 3;
             int resultRow;
             int resultRemainder;
 
-            resultRow = numberImages / numberRow;
-            resultRemainder = numberImages % numberRow;
+            resultRow = numberOfImages / numberOfCompletedRows;
+            resultRemainder = numberOfImages % numberOfCompletedRows;
             Console.WriteLine($"Количество рядов: {resultRow}, количество картинок сверх меры: {resultRemainder}.");
         }
     }
