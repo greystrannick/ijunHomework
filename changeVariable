@@ -18,6 +18,5 @@ namespace CsLight
 
             Console.WriteLine($"Имя: {name}. Фамилия: {surname}.");
         }
-
     }
 }
