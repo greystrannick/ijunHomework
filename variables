@@ -10,9 +10,9 @@ namespace CsLight
             string playerName;
             bool canOpenDoor;
             ulong visibleStars;
-            int viewingAngle;
+            decimal charasterMoney;
             uint trackNumber;
-            string nameCity;
+            double resultMath;
             float elevationAngle;
             ushort charasterLevel;
             char charAlphabet;
