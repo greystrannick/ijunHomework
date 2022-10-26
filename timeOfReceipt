@@ -6,19 +6,19 @@ namespace CsLight
     {
         static void Main(string[] args)
         {
+            const int MitunesInHour = 60;
             int patientsInLine;
             int receptionTime=10;
             int waitingTime;
             int waitingHour;
             int waitingMinutes;
-            const int hourOrMinutes = 60;
-
+            
             Console.Write("Сколько старушек в очереди перед вами?: ");
             patientsInLine = Convert.ToInt32(Console.ReadLine());
             
             waitingTime = patientsInLine * receptionTime;
-            waitingHour = waitingTime / hourOrMinutes;
-            waitingMinutes = waitingTime % hourOrMinutes;
+            waitingHour = waitingTime / MitunesInHour;
+            waitingMinutes = waitingTime % MitunesInHour;
 
             Console.WriteLine($"Вы простоите в очереди {waitingHour} часа" +
                 $"  {waitingMinutes} минут.");
