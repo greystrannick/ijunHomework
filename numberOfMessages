@@ -7,14 +7,14 @@ namespace CsLight
         static void Main(string[] args)
         {
             string message;
-            int numberOfMessages;
+            int numberMessages;
 
             Console.Write("Введите сообщение: ");
             message = Console.ReadLine();
             Console.Write("Введите сколько раз повторить сообщение: ");
-            numberOfMessages = Convert.ToInt32(Console.ReadLine());
+            numberMessages = Convert.ToInt32(Console.ReadLine());
 
-            for (int i = 0; i < numberOfMessages; i++)
+            for (int i = 0; i < numberMessages; i++)
             {
                 Console.WriteLine(message);
             }
