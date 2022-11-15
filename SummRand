@@ -1,0 +1,25 @@
+using System;
+
+namespace CsLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int randomNumber;
+            int sumNumbers = 0;
+            Random rand = new Random();
+            randomNumber = rand.Next(0, 100);
+            Console.WriteLine("Случайное число: "+randomNumber);
+
+            for (int i = 0; i <= randomNumber; i++)
+            {
+                if ((i % 3 == 0) || (i % 5 == 0))
+                {
+                    sumNumbers += i;
+                }
+            }
+            Console.WriteLine("Сумма чисел меньше случайног кратных 3 и 5: "+sumNumbers);
+        }
+    }
+}
