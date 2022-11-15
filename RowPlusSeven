@@ -6,8 +6,7 @@ namespace CsLight
     {
         static void Main(string[] args)
         {
-            
-            const RowIncrement;
+            const int RowIncrement = 7;
 
             for (int i = 5; i < 100; i += RowIncrement)
             {
