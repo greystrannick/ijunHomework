@@ -1,0 +1,24 @@
+using System;
+
+namespace CsLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string exitCommand = "exit";
+            string userCommand;
+                        
+            while (true)
+            {
+                Console.Write("Введите команду: ");
+                userCommand =  Console.ReadLine();
+                if (userCommand == exitCommand)
+                {
+                    Console.WriteLine("Выход из системы.");
+                    break;
+                }                
+            }
+        }
+    }
+}
