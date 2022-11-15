@@ -9,8 +9,8 @@ namespace CsLight
             int randomNumber;
             int startRow = 5;
             int endRow = 100;
-            int multiple3 = 3;
-            int multiple5 = 5;
+            int firstMultiple = 3;
+            int secondMultiple = 5;
             int sumNumbers = 0;
             Random random = new Random();
             randomNumber = random.Next(startRow, endRow);
@@ -18,12 +18,12 @@ namespace CsLight
 
             for (int i = 0; i <= randomNumber; i++)
             {
-                if ((i % multiple3 == 0) || (i % multiple5 == 0))
+                if (i % firstMultiple == 0 || i % secondMultiple == 0)
                 {
                     sumNumbers += i;
                 }
             }
-            Console.WriteLine("Сумма чисел меньше случайног кратных 3 и 5: " + sumNumbers);
+            Console.WriteLine("Сумма чисел меньше случайного, кратных " + firstMultiple + " и " + secondMultiple + ": " + sumNumbers);
         }
     }
 }
