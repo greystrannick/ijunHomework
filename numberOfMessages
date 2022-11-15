@@ -1,0 +1,23 @@
+using System;
+
+namespace CsLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string message;
+            int numberOfMessages;
+
+            Console.Write("Введите сообщение: ");
+            message = Console.ReadLine();
+            Console.Write("Введите сколько раз повторить сообщение: ");
+            numberOfMessages = Convert.ToInt32(Console.ReadLine());
+
+            while (numberOfMessages-- > 0)
+            {
+                Console.WriteLine(message);
+            }
+        }
+    }
+}
