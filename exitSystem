@@ -8,16 +8,18 @@ namespace CsLight
         {
             string exitCommand = "exit";
             string userCommand;
-                        
-            while (true)
+            bool canExit = true;
+
+            while (canExit==true)
             {
                 Console.Write("Введите команду: ");
-                userCommand =  Console.ReadLine();
+                userCommand = Console.ReadLine();
+
                 if (userCommand == exitCommand)
                 {
                     Console.WriteLine("Выход из системы.");
-                    break;
-                }                
+                    canExit = false;                   
+                }
             }
         }
     }
