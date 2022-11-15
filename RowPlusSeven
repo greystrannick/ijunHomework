@@ -6,13 +6,12 @@ namespace CsLight
     {
         static void Main(string[] args)
         {
-            int startOfRow = 5;
-            int endOfRow = 100;
-            int whileOfRow;
+            
+            const RowIncrement;
 
-            for (whileOfRow = startOfRow; whileOfRow < endOfRow; whileOfRow += 7)
+            for (int i = 5; i < 100; i += RowIncrement)
             {
-                Console.Write(whileOfRow + " ");
+                Console.Write(i + " ");
             }
         }
     }
