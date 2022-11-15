@@ -1,0 +1,19 @@
+using System;
+
+namespace CsLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int startOfRow = 5;
+            int endOfRow = 100;
+            int whileOfRow;
+
+            for (whileOfRow = startOfRow; whileOfRow < endOfRow; whileOfRow += 7)
+            {
+                Console.Write(whileOfRow + " ");
+            }
+        }
+    }
+}
