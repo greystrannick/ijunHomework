@@ -1,0 +1,138 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double usdToRub = 77.01;
+            double rubToUsd = 78.14;
+
+            double eurToRub = 82.16;
+            double rubToEur = 83.39;
+
+            double EurToUsd = 1.06;
+
+            double availableMoney = 0;
+            string transferFromСurrency, transferToСurrency;
+            string userInputCommand = "";
+
+            Console.WriteLine("Конвертер валют");
+
+            Console.Write("Введите количество у Вас рублей: ");
+            double rubWallet = Convert.ToDouble(Console.ReadLine());
+
+            Console.Write("Введите количество у Вас долларов: ");
+            double usdWallet = Convert.ToDouble(Console.ReadLine());
+
+            Console.Write("Введите количество у Вас евро: ");
+            double eurWallet = Convert.ToDouble(Console.ReadLine());
+
+            Console.WriteLine("Текущий курс валют:");
+            Console.WriteLine($"Продажа USD: {usdToRub} RUB");
+            Console.WriteLine($"Покупка USD: {rubToUsd} RUB");
+            Console.WriteLine($"Продажа EUR: {eurToRub} RUB");
+            Console.WriteLine($"Покупка EUR: {rubToEur} RUB");
+            Console.WriteLine($"Обмен EUR/USD: {EurToUsd}");
+
+            while (userInputCommand != "exit")
+            {
+                Console.WriteLine($"У Вас {rubWallet} рублей, {usdWallet} долларов, {eurWallet} евро\n");
+
+                Console.WriteLine("Какую валюту хотите поменять? 1-рубли, 2-доллары, 3-евро: ");
+                transferFromСurrency = Console.ReadLine();
+
+                if (transferFromСurrency == "1")
+                    availableMoney = rubWallet;
+                else if (transferFromСurrency == "2")
+                    availableMoney = usdWallet;
+                else if (transferFromСurrency == "3")
+                    availableMoney = eurWallet;
+                else
+                {
+                    Console.WriteLine("Выбран неправильный идентификатор валюты!");
+                    continue;
+                }
+
+                Console.Write("Введите сумму обмена: ");
+                double moneyToExchange = Convert.ToDouble(Console.ReadLine());
+
+                if (moneyToExchange > availableMoney || moneyToExchange == 0)
+                {
+                    Console.WriteLine("На счете недостаточно средств или сумма для обмена некорректна!");
+                    continue;
+                }
+                Console.Write("Какую валюту хотите получить? 1-рубли, 2-доллары, 3-евро: ");
+                transferToСurrency = Console.ReadLine();
+
+                if (transferToСurrency == "1")
+                {
+                    if (transferFromСurrency == "2")
+                    {
+                        rubWallet += moneyToExchange * usdToRub;
+                        usdWallet -= moneyToExchange;
+                    }
+                    else if (transferFromСurrency == "3")
+                    {
+                        rubWallet += moneyToExchange * eurToRub;
+                        eurWallet -= moneyToExchange;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Обмен на туже валюту не возможен!");
+                        continue;
+                    }
+                }
+                else if (transferToСurrency == "2")
+                {
+                    if (transferFromСurrency == "1")
+                    {
+                        usdWallet += moneyToExchange / rubToUsd;
+                        rubWallet -= moneyToExchange;
+                    }
+                    else if (transferFromСurrency == "3")
+                    {
+                        usdWallet += moneyToExchange * EurToUsd;
+                        eurWallet -= moneyToExchange;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Обмен на туже валюту не возможен!");
+                        continue;
+                    }
+                }
+                else if (transferToСurrency == "3")
+                {
+                    if (transferFromСurrency == "1")
+                    {
+                        eurWallet += moneyToExchange / rubToEur;
+                        rubWallet -= moneyToExchange;
+                    }
+                    else if (transferFromСurrency == "2")
+                    {
+                        eurWallet += moneyToExchange / EurToUsd;
+                        usdWallet -= moneyToExchange;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Обмен на туже валюту не возможен!");
+                        continue;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Выбран неправильный идентификатор валюты!");
+                    continue;
+                }
+
+                Console.WriteLine("Обмен произведён.");
+                    Console.WriteLine($"У Вас {rubWallet} рублей, {usdWallet} долларов, {eurWallet} евро");
+
+                Console.WriteLine("Для выхода из программы введите exit, для продолжения нажмите Enter");
+
+                userInputCommand = Console.ReadLine();
+            }
+        }
+    }
+}
