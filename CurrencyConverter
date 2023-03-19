@@ -12,11 +12,16 @@ namespace CSLight
             double eurToRub = 82.16;
             double rubToEur = 83.39;
 
-            double EurToUsd = 1.06;
+            double eurToUsd = 1.06;
 
             double availableMoney = 0;
-            string transferFromСurrency, transferToСurrency;
+            string transferFromСurrency;
+            string transferToСurrency;
             string userInputCommand = "";
+            string exitCommand = "exit";
+            string currencyRub = "RUB";
+            string currencyUsd = "USD";
+            string currencyEur = "EUR";
 
             Console.WriteLine("Конвертер валют");
 
@@ -34,20 +39,20 @@ namespace CSLight
             Console.WriteLine($"Покупка USD: {rubToUsd} RUB");
             Console.WriteLine($"Продажа EUR: {eurToRub} RUB");
             Console.WriteLine($"Покупка EUR: {rubToEur} RUB");
-            Console.WriteLine($"Обмен EUR/USD: {EurToUsd}");
+            Console.WriteLine($"Обмен EUR/USD: {eurToUsd}");
 
-            while (userInputCommand != "exit")
+            while (userInputCommand != exitCommand)
             {
                 Console.WriteLine($"У Вас {rubWallet} рублей, {usdWallet} долларов, {eurWallet} евро\n");
 
-                Console.WriteLine("Какую валюту хотите поменять? 1-рубли, 2-доллары, 3-евро: ");
+                Console.Write("Какую валюту хотите поменять? RUB-рубли, USD-доллары, EUR-евро: ");
                 transferFromСurrency = Console.ReadLine();
 
-                if (transferFromСurrency == "1")
+                if (transferFromСurrency == currencyRub)
                     availableMoney = rubWallet;
-                else if (transferFromСurrency == "2")
+                else if (transferFromСurrency == currencyUsd)
                     availableMoney = usdWallet;
-                else if (transferFromСurrency == "3")
+                else if (transferFromСurrency == currencyEur)
                     availableMoney = eurWallet;
                 else
                 {
@@ -63,17 +68,17 @@ namespace CSLight
                     Console.WriteLine("На счете недостаточно средств или сумма для обмена некорректна!");
                     continue;
                 }
-                Console.Write("Какую валюту хотите получить? 1-рубли, 2-доллары, 3-евро: ");
+                Console.Write("Какую валюту хотите получить? RUB-рубли, USD-доллары, EUR-евро: ");
                 transferToСurrency = Console.ReadLine();
 
-                if (transferToСurrency == "1")
+                if (transferToСurrency == currencyRub)
                 {
-                    if (transferFromСurrency == "2")
+                    if (transferFromСurrency == currencyUsd)
                     {
                         rubWallet += moneyToExchange * usdToRub;
                         usdWallet -= moneyToExchange;
                     }
-                    else if (transferFromСurrency == "3")
+                    else if (transferFromСurrency == currencyEur)
                     {
                         rubWallet += moneyToExchange * eurToRub;
                         eurWallet -= moneyToExchange;
@@ -84,16 +89,16 @@ namespace CSLight
                         continue;
                     }
                 }
-                else if (transferToСurrency == "2")
+                else if (transferToСurrency == currencyUsd)
                 {
-                    if (transferFromСurrency == "1")
+                    if (transferFromСurrency == currencyRub)
                     {
                         usdWallet += moneyToExchange / rubToUsd;
                         rubWallet -= moneyToExchange;
                     }
-                    else if (transferFromСurrency == "3")
+                    else if (transferFromСurrency == currencyEur)
                     {
-                        usdWallet += moneyToExchange * EurToUsd;
+                        usdWallet += moneyToExchange * eurToUsd;
                         eurWallet -= moneyToExchange;
                     }
                     else
@@ -102,16 +107,16 @@ namespace CSLight
                         continue;
                     }
                 }
-                else if (transferToСurrency == "3")
+                else if (transferToСurrency == currencyEur)
                 {
-                    if (transferFromСurrency == "1")
+                    if (transferFromСurrency == currencyRub)
                     {
                         eurWallet += moneyToExchange / rubToEur;
                         rubWallet -= moneyToExchange;
                     }
-                    else if (transferFromСurrency == "2")
+                    else if (transferFromСurrency == currencyUsd)
                     {
-                        eurWallet += moneyToExchange / EurToUsd;
+                        eurWallet += moneyToExchange / eurToUsd;
                         usdWallet -= moneyToExchange;
                     }
                     else
@@ -127,7 +132,7 @@ namespace CSLight
                 }
 
                 Console.WriteLine("Обмен произведён.");
-                    Console.WriteLine($"У Вас {rubWallet} рублей, {usdWallet} долларов, {eurWallet} евро");
+                Console.WriteLine($"У Вас {rubWallet} рублей, {usdWallet} долларов, {eurWallet} евро");
 
                 Console.WriteLine("Для выхода из программы введите exit, для продолжения нажмите Enter");
 
