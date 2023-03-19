@@ -1,0 +1,101 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string setBColor;
+            string setFColor;
+            string inputCommand = "";
+
+            while (inputCommand != "exit")
+            {
+                Console.Write("> ");
+
+                inputCommand = Console.ReadLine();
+
+                switch (inputCommand)
+                {
+                    case "title":
+                        Console.Write("Введите название: ");
+                        Console.Title = Console.ReadLine();
+                        break;
+                    case "wsize":
+                        Console.WindowWidth=10;
+                        break;
+                    case "hsize":
+                        Console.WindowHeight=10;
+                        break;
+                    case "clear":
+                        Console.Clear();
+                        break;
+                    case "beep":
+                        Console.Beep();
+                        break;
+                    case "bcolor":
+                        Console.Write("Введите цвет(red, green, blue): ");
+                        setBColor = Console.ReadLine();
+                        switch (setBColor)
+                        {
+                            case "red":
+                                Console.BackgroundColor = ConsoleColor.Red;
+                                Console.Clear();
+                                break;
+                            case "green":
+                                Console.BackgroundColor = ConsoleColor.Green;
+                                Console.Clear();
+                                break;
+                            case "blue":
+                                Console.BackgroundColor = ConsoleColor.Blue;
+                                Console.Clear();
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case "fcolor":
+                        Console.Write("Введите цвет(red, green, blue): ");
+                        setFColor = Console.ReadLine();
+                        switch (setFColor)
+                        {
+                            case "red":
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.Clear();
+                                break;
+                            case "green":
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.Clear();
+                                break;
+                            case "blue":
+                                Console.ForegroundColor = ConsoleColor.Blue;
+                                Console.Clear();
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case "rcolor":
+                        Console.ResetColor();
+                        Console.Clear();
+                        break;
+                    case "help":
+                        Console.WriteLine("title - изменить название консоли");
+                        Console.WriteLine("wsize - установить размер консоли по ширине в 10");
+                        Console.WriteLine("hsize - установить размер консоли по высоте в 10");
+                        Console.WriteLine("clear - очистить консоль");
+                        Console.WriteLine("beep - воспроизвести звуковой сигнал через динамик консоли");
+                        Console.WriteLine("bcolor - изменить цвет фона консоли");
+                        Console.WriteLine("fсolor - изменить цвет текста консоли");
+                        Console.WriteLine("rсolor - установка для цветов фона и текста консоли их значения по умолчанию");
+                        Console.WriteLine("exit - выход из программы");
+                        break;
+                    default:
+                        Console.WriteLine("help - помощь по доступным командам");
+                        break;
+                }
+            }
+        }
+    }
+}
