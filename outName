@@ -1,0 +1,27 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Введите имя: ");
+            string userName = Console.ReadLine();
+
+            Console.Write("Введите символ: ");
+            string symvol = Console.ReadLine();
+                    for (int i = 0; i < userName.Length + 2; i++)
+                    {
+                        Console.Write($"{symvol}");
+                    }
+
+                    Console.WriteLine($"\n{symvol}{userName}{symvol}");
+
+                    for (int i = 0; i < userName.Length + 2; i++)
+                    {
+                        Console.Write($"{symvol}");
+                    }
+        }
+    }
+}
