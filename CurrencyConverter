@@ -8,12 +8,9 @@ namespace CSLight
         {
             double usdToRub = 77.01;
             double rubToUsd = 78.14;
-
             double eurToRub = 82.16;
             double rubToEur = 83.39;
-
             double eurToUsd = 1.06;
-
             double availableMoney = 0;
             string transferFromСurrency;
             string transferToСurrency;
@@ -24,16 +21,12 @@ namespace CSLight
             string currencyEur = "EUR";
 
             Console.WriteLine("Конвертер валют");
-
             Console.Write("Введите количество у Вас рублей: ");
             double rubWallet = Convert.ToDouble(Console.ReadLine());
-
             Console.Write("Введите количество у Вас долларов: ");
             double usdWallet = Convert.ToDouble(Console.ReadLine());
-
             Console.Write("Введите количество у Вас евро: ");
             double eurWallet = Convert.ToDouble(Console.ReadLine());
-
             Console.WriteLine("Текущий курс валют:");
             Console.WriteLine($"Продажа USD: {usdToRub} RUB");
             Console.WriteLine($"Покупка USD: {rubToUsd} RUB");
@@ -44,22 +37,26 @@ namespace CSLight
             while (userInputCommand != exitCommand)
             {
                 Console.WriteLine($"У Вас {rubWallet} рублей, {usdWallet} долларов, {eurWallet} евро\n");
-
                 Console.Write("Какую валюту хотите поменять? RUB-рубли, USD-доллары, EUR-евро: ");
                 transferFromСurrency = Console.ReadLine();
 
                 if (transferFromСurrency == currencyRub)
+                {
                     availableMoney = rubWallet;
+                }
                 else if (transferFromСurrency == currencyUsd)
+                {
                     availableMoney = usdWallet;
+                }
                 else if (transferFromСurrency == currencyEur)
+                {
                     availableMoney = eurWallet;
+                }
                 else
                 {
                     Console.WriteLine("Выбран неправильный идентификатор валюты!");
                     continue;
                 }
-
                 Console.Write("Введите сумму обмена: ");
                 double moneyToExchange = Convert.ToDouble(Console.ReadLine());
 
@@ -75,12 +72,12 @@ namespace CSLight
                 {
                     if (transferFromСurrency == currencyUsd)
                     {
-                        rubWallet += moneyToExchange * usdToRub;
+                        rubWallet += moneyToExchange / (1/usdToRub);
                         usdWallet -= moneyToExchange;
                     }
                     else if (transferFromСurrency == currencyEur)
                     {
-                        rubWallet += moneyToExchange * eurToRub;
+                        rubWallet += moneyToExchange / (1/eurToRub);
                         eurWallet -= moneyToExchange;
                     }
                     else
@@ -98,7 +95,7 @@ namespace CSLight
                     }
                     else if (transferFromСurrency == currencyEur)
                     {
-                        usdWallet += moneyToExchange * eurToUsd;
+                        usdWallet += moneyToExchange / (1/eurToUsd);
                         eurWallet -= moneyToExchange;
                     }
                     else
@@ -130,12 +127,9 @@ namespace CSLight
                     Console.WriteLine("Выбран неправильный идентификатор валюты!");
                     continue;
                 }
-
                 Console.WriteLine("Обмен произведён.");
                 Console.WriteLine($"У Вас {rubWallet} рублей, {usdWallet} долларов, {eurWallet} евро");
-
                 Console.WriteLine("Для выхода из программы введите exit, для продолжения нажмите Enter");
-
                 userInputCommand = Console.ReadLine();
             }
         }
