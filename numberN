@@ -6,12 +6,12 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-
             int numberN;
             int intervalStart = 1;
             int intervalEnd = 27;
             int numberRange = 999;
             int occurrenceСounter = 0;
+            int multiplicityСondition = 100;
 
             Random random = new Random();
             numberN = random.Next(intervalStart, intervalEnd);
@@ -19,11 +19,12 @@ namespace CSLight
 
             for (int i = 0; i < numberRange; i += numberN)
             {
-                if (i >= 100)
+                if (i >= multiplicityСondition)
                 {
                     occurrenceСounter++;
                 }
             }
+
             Console.WriteLine($"Количество трехзначных натуральных чисел, которые кратны N: {occurrenceСounter}");
         }
     }
