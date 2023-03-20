@@ -6,81 +6,109 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
+            const string CommandExit = "exit";
+            const string CommandTitle = "title";
+            const string CommandWsize = "wsize";
+            const string CommandHsize = "hsize";
+            const string CommandClear = "clear";
+            const string CommandBeep = "beep";
+            const string CommandBcolor = "bcolor";
+            const string CommandFcolor = "fcolor";
+            const string CommandRcolor = "rcolor";
+            const string CommandHelp = "help";
+            const string ColorRed = "red";
+            const string ColorGreen = "green";
+            const string ColorBlue = "blue";
             string setBColor;
             string setFColor;
             string inputCommand = "";
+            int widthSize = 10;
+            int heightSize = 10;
 
-            while (inputCommand != "exit")
+            while (inputCommand != CommandExit)
             {
                 Console.Write("> ");
-
                 inputCommand = Console.ReadLine();
 
                 switch (inputCommand)
                 {
-                    case "title":
+                    case CommandTitle:
                         Console.Write("Введите название: ");
                         Console.Title = Console.ReadLine();
                         break;
-                    case "wsize":
-                        Console.WindowWidth=10;
+
+                    case CommandWsize:
+                        Console.WindowWidth = widthSize;
                         break;
-                    case "hsize":
-                        Console.WindowHeight=10;
+
+                    case CommandHsize:
+                        Console.WindowHeight = heightSize;
                         break;
-                    case "clear":
+
+                    case CommandClear:
                         Console.Clear();
                         break;
-                    case "beep":
+
+                    case CommandBeep:
                         Console.Beep();
                         break;
-                    case "bcolor":
+
+                    case CommandBcolor:
                         Console.Write("Введите цвет(red, green, blue): ");
                         setBColor = Console.ReadLine();
                         switch (setBColor)
                         {
-                            case "red":
+                            case ColorRed:
                                 Console.BackgroundColor = ConsoleColor.Red;
                                 Console.Clear();
                                 break;
-                            case "green":
+
+                            case ColorGreen:
                                 Console.BackgroundColor = ConsoleColor.Green;
                                 Console.Clear();
                                 break;
-                            case "blue":
+
+                            case ColorBlue:
                                 Console.BackgroundColor = ConsoleColor.Blue;
                                 Console.Clear();
                                 break;
+
                             default:
                                 break;
                         }
                         break;
-                    case "fcolor":
+
+                    case CommandFcolor:
                         Console.Write("Введите цвет(red, green, blue): ");
                         setFColor = Console.ReadLine();
                         switch (setFColor)
                         {
-                            case "red":
+                            case ColorRed:
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 Console.Clear();
                                 break;
-                            case "green":
+
+                            case ColorGreen:
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.Clear();
                                 break;
-                            case "blue":
+
+                            case ColorBlue:
                                 Console.ForegroundColor = ConsoleColor.Blue;
                                 Console.Clear();
                                 break;
+
                             default:
                                 break;
                         }
                         break;
-                    case "rcolor":
+
+                    case CommandRcolor:
                         Console.ResetColor();
                         Console.Clear();
                         break;
-                    case "help":
+
+                    case CommandHelp:
                         Console.WriteLine("title - изменить название консоли");
                         Console.WriteLine("wsize - установить размер консоли по ширине в 10");
                         Console.WriteLine("hsize - установить размер консоли по высоте в 10");
@@ -91,6 +119,7 @@ namespace CSLight
                         Console.WriteLine("rсolor - установка для цветов фона и текста консоли их значения по умолчанию");
                         Console.WriteLine("exit - выход из программы");
                         break;
+
                     default:
                         Console.WriteLine("help - помощь по доступным командам");
                         break;
