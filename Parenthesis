@@ -1,0 +1,47 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string userInput;
+            int nestingDepth=0;
+            int maxDepth = 0;
+            char openParenthesis = '(';
+            char closeParenthesis = ')';
+
+            Console.WriteLine($"Введите строку из символов '{openParenthesis}' и '{closeParenthesis}'");
+            userInput = Console.ReadLine();
+
+            foreach (char charOnInput in userInput)
+            {
+                if (charOnInput == openParenthesis)
+                {
+                    nestingDepth++;
+                    if (maxDepth<nestingDepth)
+                    {
+                        maxDepth = nestingDepth;
+                    }
+                }
+                else if (charOnInput == closeParenthesis)
+                {
+                    nestingDepth--;
+                }
+
+                Console.WriteLine($"{charOnInput} | {nestingDepth} | {maxDepth}");
+            }
+
+            if (nestingDepth < 0 | nestingDepth > 0)
+            {
+                Console.WriteLine($"Данное скобочное выражение: '{userInput}' - некорректное.");
+            }
+            else if (nestingDepth == 0)
+            {
+                Console.WriteLine($"Данное скобочное выражение: '{userInput}' - корректное.");
+                Console.WriteLine($"Максимальная вложенность {maxDepth}");
+            }        
+        }
+    }
+}
