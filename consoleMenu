@@ -12,20 +12,20 @@ namespace CSLight
             const string CommandHsize = "hsize";
             const string CommandClear = "clear";
             const string CommandBeep = "beep";
-            const string CommandBcolor = "bcolor";
-            const string CommandFcolor = "fcolor";
-            const string CommandRcolor = "rcolor";
+            const string CommandBackgroundColor = "bcolor";
+            const string CommandForegroundColor = "fcolor";
+            const string CommandResetColor = "rcolor";
             const string CommandHelp = "help";
             const string MenuColorRed = "red";
             const string MenuColorGreen = "green";
             const string MenuColorBlue = "blue";
             
-            string setBColor;
-            string setFColor;
+            string backgroundColor;
+            string foregroundColor;
             string inputCommand = "";
 
-            int widthSize = 10;
-            int heightSize = 10;
+            int width = 10;
+            int height = 10;
 
             while (inputCommand != CommandExit)
             {
@@ -40,11 +40,11 @@ namespace CSLight
                         break;
 
                     case CommandWsize:
-                        Console.WindowWidth = widthSize;
+                        Console.WindowWidth = width;
                         break;
 
                     case CommandHsize:
-                        Console.WindowHeight = heightSize;
+                        Console.WindowHeight = height;
                         break;
 
                     case CommandClear:
@@ -55,77 +55,75 @@ namespace CSLight
                         Console.Beep();
                         break;
 
-                    case CommandBcolor:
+                    case CommandBackgroundColor:
                         Console.Write("Введите цвет(red, green, blue): ");
-                        setBColor = Console.ReadLine();
-                        switch (setBColor)
+                        backgroundColor = Console.ReadLine();
+                        switch (backgroundColor)
                         {
                             case MenuColorRed:
                                 Console.BackgroundColor = ConsoleColor.Red;
-                                Console.Clear();
                                 break;
 
                             case MenuColorGreen:
                                 Console.BackgroundColor = ConsoleColor.Green;
-                                Console.Clear();
                                 break;
 
                             case MenuColorBlue:
                                 Console.BackgroundColor = ConsoleColor.Blue;
-                                Console.Clear();
                                 break;
 
                             default:
                                 break;
                         }
 
+                        Console.Clear();
+
                         break;
 
-                    case CommandFcolor:
+                    case CommandForegroundColor:
                         Console.Write("Введите цвет(red, green, blue): ");
-                        setFColor = Console.ReadLine();
-                        switch (setFColor)
+                        foregroundColor = Console.ReadLine();
+                        switch (foregroundColor)
                         {
                             case MenuColorRed:
                                 Console.ForegroundColor = ConsoleColor.Red;
-                                Console.Clear();
                                 break;
 
                             case MenuColorGreen:
                                 Console.ForegroundColor = ConsoleColor.Green;
-                                Console.Clear();
                                 break;
 
                             case MenuColorBlue:
                                 Console.ForegroundColor = ConsoleColor.Blue;
-                                Console.Clear();
                                 break;
 
                             default:
                                 break;
                         }
 
+                        Console.Clear();
+
                         break;
 
-                    case CommandRcolor:
+                    case CommandResetColor:
                         Console.ResetColor();
                         Console.Clear();
                         break;
 
                     case CommandHelp:
-                        Console.WriteLine("title - изменить название консоли");
-                        Console.WriteLine("wsize - установить размер консоли по ширине в 10");
-                        Console.WriteLine("hsize - установить размер консоли по высоте в 10");
-                        Console.WriteLine("clear - очистить консоль");
-                        Console.WriteLine("beep - воспроизвести звуковой сигнал через динамик консоли");
-                        Console.WriteLine("bcolor - изменить цвет фона консоли");
-                        Console.WriteLine("fсolor - изменить цвет текста консоли");
-                        Console.WriteLine("rсolor - установка для цветов фона и текста консоли их значения по умолчанию");
-                        Console.WriteLine("exit - выход из программы");
+                        Console.WriteLine($"{CommandTitle} - изменить название консоли");
+                        Console.WriteLine($"{CommandWsize} - установить размер консоли по ширине в {width}");
+                        Console.WriteLine($"{CommandHsize} - установить размер консоли по высоте в {height}");
+                        Console.WriteLine($"{CommandClear} - очистить консоль");
+                        Console.WriteLine($"{CommandBeep} - воспроизвести звуковой сигнал через динамик консоли");
+                        Console.WriteLine($"{CommandBackgroundColor} - изменить цвет фона консоли");
+                        Console.WriteLine($"{CommandForegroundColor} - изменить цвет текста консоли");
+                        Console.WriteLine($"{CommandResetColor} - установка для цветов фона и текста консоли их значения по умолчанию");
+                        Console.WriteLine($"{CommandExit} - выход из программы");
                         break;
 
                     default:
-                        Console.WriteLine("help - помощь по доступным командам");
+                        Console.WriteLine($"{CommandHelp} - помощь по доступным командам");
                         break;
                 }
             }
