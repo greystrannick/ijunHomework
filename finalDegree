@@ -6,22 +6,23 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            int startIntervar = 1;
-            int endIntervar = 1000;
+            int startInterval = 1;
+            int endInterval = 1000;
             int result = 1;
             int basicDegree = 2;
             int finalDegree = 0;
 
             Random random = new Random();
-            int givenNumber = random.Next(startIntervar, endIntervar);
+            int givenNumber = random.Next(startInterval, endInterval);
 
             while (result <= givenNumber)
             {
                 finalDegree++;
                 result *= basicDegree;
             }
-            Console.WriteLine($"Минимальная степень числа 2, превосходящая заданное число {givenNumber}: " + finalDegree);
-            Console.WriteLine($"Число 2 в найденной степени {finalDegree}: " + result);
+
+            Console.WriteLine($"Минимальная степень числа {basicDegree}, превосходящая заданное число {givenNumber}: " + finalDegree);
+            Console.WriteLine($"Число {basicDegree} в найденной степени {finalDegree}: " + result);
         }
     }
 }
