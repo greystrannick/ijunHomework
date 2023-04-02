@@ -16,12 +16,14 @@ namespace CSLight
             const string CommandFcolor = "fcolor";
             const string CommandRcolor = "rcolor";
             const string CommandHelp = "help";
-            const string ColorRed = "red";
-            const string ColorGreen = "green";
-            const string ColorBlue = "blue";
+            const string MenuColorRed = "red";
+            const string MenuColorGreen = "green";
+            const string MenuColorBlue = "blue";
+            
             string setBColor;
             string setFColor;
             string inputCommand = "";
+
             int widthSize = 10;
             int heightSize = 10;
 
@@ -58,17 +60,17 @@ namespace CSLight
                         setBColor = Console.ReadLine();
                         switch (setBColor)
                         {
-                            case ColorRed:
+                            case MenuColorRed:
                                 Console.BackgroundColor = ConsoleColor.Red;
                                 Console.Clear();
                                 break;
 
-                            case ColorGreen:
+                            case MenuColorGreen:
                                 Console.BackgroundColor = ConsoleColor.Green;
                                 Console.Clear();
                                 break;
 
-                            case ColorBlue:
+                            case MenuColorBlue:
                                 Console.BackgroundColor = ConsoleColor.Blue;
                                 Console.Clear();
                                 break;
@@ -76,6 +78,7 @@ namespace CSLight
                             default:
                                 break;
                         }
+
                         break;
 
                     case CommandFcolor:
@@ -83,17 +86,17 @@ namespace CSLight
                         setFColor = Console.ReadLine();
                         switch (setFColor)
                         {
-                            case ColorRed:
+                            case MenuColorRed:
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 Console.Clear();
                                 break;
 
-                            case ColorGreen:
+                            case MenuColorGreen:
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.Clear();
                                 break;
 
-                            case ColorBlue:
+                            case MenuColorBlue:
                                 Console.ForegroundColor = ConsoleColor.Blue;
                                 Console.Clear();
                                 break;
@@ -101,6 +104,7 @@ namespace CSLight
                             default:
                                 break;
                         }
+
                         break;
 
                     case CommandRcolor:
