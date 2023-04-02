@@ -1,0 +1,27 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int startIntervar = 1;
+            int endIntervar = 1000;
+            int result = 1;
+            int basicDegree = 2;
+            int finalDegree = 0;
+
+            Random random = new Random();
+            int givenNumber = random.Next(startIntervar, endIntervar);
+
+            while (result <= givenNumber)
+            {
+                finalDegree++;
+                result *= basicDegree;
+            }
+            Console.WriteLine($"Минимальная степень числа 2, превосходящая заданное число {givenNumber}: " + finalDegree);
+            Console.WriteLine($"Число 2 в найденной степени {finalDegree}: " + result);
+        }
+    }
+}
