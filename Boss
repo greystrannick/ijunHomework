@@ -1,0 +1,223 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            const int CommandInfoPlayer = 1;
+            const int CommandInfoBoss = 2;
+            const int CommandBattle = 3;
+            const int CommandBaseSpell = 1;
+            const int CommandImprovedSpell = 2;
+            const int CommandLegendarySpell = 3;
+            const int CommandHealingSpell = 5;
+            const int CommandEscape = 4;
+            const string BaseSpell = "Огненный шар";
+            const string ImprovedSpell = "Буйство вулкана";
+            const string LegendarySpell = "Испепеляющий Хвост Кометы";
+            const string HealingSpell = "Целительные ладони";
+            const string EscapeSpell = "Крылья ветра";
+
+            bool isGame = true;
+            bool isActiveImprovedSpell = false;
+            bool isActiveLegendarySpell = false;
+            int mainMenu;
+            int attackSpell;
+            int bossHelth = 4000;
+            int playerHelth = 1500;
+            int bossHelthMax = 4000;
+            int playerHelthMax = 1500;
+            int damageBaseSpell = 300;
+            int damageImprovedSpell = 600;
+            int damageLegendarySpell = 900;
+            int damageHealingSpell = 300;
+            int damageHealingBoss = 100;
+            int randomAttackDemonMin = 300;
+            int randomAttackDemonMax = 600;
+            int damagBossNow;
+            string playerSpell = $"{CommandBaseSpell} - {BaseSpell}, базовое заклинание, наносит {damageBaseSpell} урона.\n" +
+                $"{CommandImprovedSpell} - {ImprovedSpell}, огненная смерть выплескивается в форме огромного вулкана, наносит {damageImprovedSpell} урона. Можно применить только после Огненного шара.\n" +
+                $"{CommandLegendarySpell} - {LegendarySpell}, маг создаёт у себя в руке легендарный клинок, целиком состоящий из сжатого первородного пламени, наносит {damageLegendarySpell} урона. Можно применить только после Буйства вулкана.\n" +
+                $"{CommandEscape} - {EscapeSpell}, позволяют мгновенно покинуть враждебную локацию.\n" +
+                $"{CommandHealingSpell} - {HealingSpell}, маг прикладывает руку к ранению, вкладывая в прикосновение часть волшебной энергии жизни, восстанавливает {damageHealingSpell} очков жизни.";
+            string demonSpell = $"Босс ВбаЭксел, могучий демон подземелий.\n" +
+                $"Наносит атаку в размере: от {randomAttackDemonMin} до {randomAttackDemonMax} урона.\n" +
+                $"Вы в любое время можете сохранить свою нежную шкурку путем бегства.";
+            Random random = new Random();
+
+            while (isGame)
+            {
+
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine($"Главное меню:\n{CommandInfoPlayer}.Посмотреть умения игрока.\n{CommandInfoBoss}.Посмотреть умения Босса.\n{CommandBattle}.Начать битву с Боссом.\n{CommandEscape}.Убежать позорно с поля боя.\n");
+                Console.SetCursorPosition(0,18);
+                Console.Write("---------------\n> ");
+                mainMenu = Convert.ToInt32(Console.ReadLine());
+
+
+                switch (mainMenu)
+                {
+                    case CommandInfoPlayer:
+                        Console.Clear();
+                        Console.SetCursorPosition(0, 6);
+                        Console.WriteLine(playerSpell);
+                        break;
+
+                    case CommandInfoBoss:
+                        Console.Clear();
+                        Console.SetCursorPosition(0, 6);
+                        Console.WriteLine(demonSpell);
+                        break;
+
+                    case CommandBattle:
+
+                        Console.Clear();
+                        Console.SetCursorPosition(0, 0);
+                        Console.WriteLine("Да начнется БИТВА и победит в ней сильнейший!!!");
+
+                        while (isGame == true && (bossHelth > 0 && playerHelth > 0))
+                        {
+                            
+                            Console.SetCursorPosition(0, 1);
+                            Console.WriteLine("Выберите заклинание для атаки.");
+                            Console.WriteLine(playerSpell);
+                            Console.SetCursorPosition(0, 18);
+                            Console.Write("---------------\n> ");
+                            attackSpell = Convert.ToInt32(Console.ReadLine());
+
+                            switch (attackSpell)
+                            {
+                                case CommandBaseSpell:
+                                    damagBossNow = random.Next(randomAttackDemonMin, randomAttackDemonMax);
+                                    Console.Clear();
+                                    Console.SetCursorPosition(0, 12);
+                                    bossHelth -= damageBaseSpell;
+                                    playerHelth -= damagBossNow;
+                                    isActiveImprovedSpell = true;
+                                    Console.WriteLine($"Игрок наносит Боссу {damageBaseSpell} урона заклинанием {BaseSpell}.\n" +
+                                        $"Босс наносит игроку {damagBossNow} урона.\n" +
+                                        $"Здоровье Босса: {bossHelth}.\n" +
+                                        $"Здоровье игрока {playerHelth}.");
+                                    break;
+
+                                case CommandImprovedSpell:
+
+                                    if (isActiveImprovedSpell)
+                                    {
+                                        damagBossNow = random.Next(randomAttackDemonMin, randomAttackDemonMax);
+                                        bossHelth -= damageImprovedSpell;
+                                        playerHelth -= damagBossNow;
+                                        isActiveLegendarySpell = true;
+                                        isActiveImprovedSpell = false;
+                                        Console.Clear();
+                                        Console.SetCursorPosition(0, 12);
+                                        Console.WriteLine($"Игрок наносит Боссу {damageImprovedSpell} урона заклинанием {ImprovedSpell}.\n" +
+                                            $"Босс наносит игроку {damagBossNow} урона.\n" +
+                                            $"Здоровье Босса: {bossHelth}.\n" +
+                                            $"Здоровье игрока {playerHelth}.");
+                                    }
+                                    else
+                                    {
+                                        Console.Clear();
+                                        Console.SetCursorPosition(0, 12);
+                                        Console.WriteLine($"Использование заклинания {ImprovedSpell} невозможно.");
+                                    }
+
+                                    break;
+
+                                case CommandLegendarySpell:
+
+                                    if (isActiveLegendarySpell)
+                                    {
+                                        damagBossNow = random.Next(randomAttackDemonMin, randomAttackDemonMax);
+                                        bossHelth -= damageLegendarySpell;
+                                        playerHelth -= damagBossNow;
+                                        isActiveLegendarySpell = false;
+                                        Console.Clear();
+                                        Console.SetCursorPosition(0, 12);
+                                        Console.WriteLine($"Игрок наносит Боссу {damageLegendarySpell} урона заклинанием {LegendarySpell}.\n" +
+                                            $"Босс наносит игроку {damagBossNow} урона.\n" +
+                                            $"Здоровье Босса: {bossHelth}.\n" +
+                                            $"Здоровье игрока {playerHelth}.");
+                                    }
+                                    else
+                                    {
+                                        Console.Clear();
+                                        Console.SetCursorPosition(0, 12);
+                                        Console.WriteLine($"Использование заклинания {LegendarySpell} невозможно.");
+                                    }
+
+                                    break;
+
+                                case CommandEscape:
+                                    isGame = false;
+                                    Console.Clear();
+                                    Console.SetCursorPosition(0, 0);
+                                    Console.WriteLine("Беги подлый ТРУС!!!");
+                                    break;
+
+                                case CommandHealingSpell:
+                                    Console.Clear();
+                                    Console.SetCursorPosition(0, 12);
+
+                                    bossHelth += damageHealingBoss;
+                                    playerHelth += damageHealingSpell;
+
+                                   if (playerHelth >= playerHelthMax)
+                                   {
+                                       playerHelth = playerHelthMax;
+                                            Console.WriteLine("У вас полные жизни.");
+                                   }
+                                   else
+                                   {
+                                       Console.WriteLine($"Игрок восстанавливает {damageHealingSpell}очков жизни заклинанием {HealingSpell}.\n" +
+                                            $"Босс восстанавливает {damageHealingBoss} очков жизни.\n" +
+                                            $"Здоровье Босса: {bossHelth}.\n" +
+                                            $"Здоровье игрока {playerHelth}.");
+                                   }
+
+                                    break;
+
+                                default:
+                                    Console.Clear();
+                                    break;
+
+                            }
+                        }
+
+                        break;
+
+                    case CommandEscape:
+                        Console.Clear();
+                        Console.WriteLine("Беги подлый ТРУС!!!");
+                        isGame = false;
+                        break;
+
+                    default:
+                        Console.Clear();
+                        break;
+
+                }
+
+                if (bossHelth == 0 && playerHelth == 0)
+                {
+                    Console.WriteLine("Ничья");
+                    isGame = false;
+                }
+                else if (playerHelth <= 0)
+                {
+                    Console.WriteLine("Вы проиграли");
+                    isGame = false;
+                }
+                else if (bossHelth <= 0)
+                {
+                    Console.WriteLine("Поздравляем, вы победили!");
+                    isGame = false;
+                }
+
+            }
+        }
+    }
+}
