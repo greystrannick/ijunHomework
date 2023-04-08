@@ -25,7 +25,7 @@ namespace CSLight
             bool isActiveLegendarySpell = false;
             int mainMenu;
             int attackSpell;
-            int bossHelth = 4000;
+            int bossHealth = 4000;
             int playerHealth = 1500;
             int playerHealthMax = 1500;
             int damageBaseSpell = 300;
@@ -73,7 +73,7 @@ namespace CSLight
                         Console.SetCursorPosition(0, 0);
                         Console.WriteLine("Да начнется БИТВА и победит в ней сильнейший!!!");
 
-                        while (isGame && bossHelth > 0 && playerHealth > 0)
+                        while (isGame && bossHealth > 0 && playerHealth > 0)
                         {
                             Console.SetCursorPosition(0, 1);
                             Console.WriteLine("Выберите заклинание для атаки.");
@@ -88,12 +88,12 @@ namespace CSLight
                                     currentDamageBoss = random.Next(randomAttackDemonMin, randomAttackDemonMax);
                                     Console.Clear();
                                     Console.SetCursorPosition(0, 12);
-                                    bossHelth -= damageBaseSpell;
+                                    bossHealth -= damageBaseSpell;
                                     playerHealth -= currentDamageBoss;
                                     isActiveImprovedSpell = true;
                                     Console.WriteLine($"Игрок наносит Боссу {damageBaseSpell} урона заклинанием {BaseSpell}.\n" +
                                         $"Босс наносит игроку {currentDamageBoss} урона.\n" +
-                                        $"Здоровье Босса: {bossHelth}.\n" +
+                                        $"Здоровье Босса: {bossHealth}.\n" +
                                         $"Здоровье игрока {playerHealth}.");
                                     break;
 
@@ -102,7 +102,7 @@ namespace CSLight
                                     if (isActiveImprovedSpell)
                                     {
                                         currentDamageBoss = random.Next(randomAttackDemonMin, randomAttackDemonMax);
-                                        bossHelth -= damageImprovedSpell;
+                                        bossHealth -= damageImprovedSpell;
                                         playerHealth -= currentDamageBoss;
                                         isActiveLegendarySpell = true;
                                         isActiveImprovedSpell = false;
@@ -110,7 +110,7 @@ namespace CSLight
                                         Console.SetCursorPosition(0, 12);
                                         Console.WriteLine($"Игрок наносит Боссу {damageImprovedSpell} урона заклинанием {ImprovedSpell}.\n" +
                                             $"Босс наносит игроку {currentDamageBoss} урона.\n" +
-                                            $"Здоровье Босса: {bossHelth}.\n" +
+                                            $"Здоровье Босса: {bossHealth}.\n" +
                                             $"Здоровье игрока {playerHealth}.");
                                     }
                                     else
@@ -127,14 +127,14 @@ namespace CSLight
                                     if (isActiveLegendarySpell)
                                     {
                                         currentDamageBoss = random.Next(randomAttackDemonMin, randomAttackDemonMax);
-                                        bossHelth -= damageLegendarySpell;
+                                        bossHealth -= damageLegendarySpell;
                                         playerHealth -= currentDamageBoss;
                                         isActiveLegendarySpell = false;
                                         Console.Clear();
                                         Console.SetCursorPosition(0, 12);
                                         Console.WriteLine($"Игрок наносит Боссу {damageLegendarySpell} урона заклинанием {LegendarySpell}.\n" +
                                             $"Босс наносит игроку {currentDamageBoss} урона.\n" +
-                                            $"Здоровье Босса: {bossHelth}.\n" +
+                                            $"Здоровье Босса: {bossHealth}.\n" +
                                             $"Здоровье игрока {playerHealth}.");
                                     }
                                     else
@@ -156,7 +156,7 @@ namespace CSLight
                                 case CommandHealingSpell:
                                     Console.Clear();
                                     Console.SetCursorPosition(0, 12);
-                                    bossHelth += damageHealingBoss;
+                                    bossHealth += damageHealingBoss;
                                     playerHealth += damageHealingSpell;
 
                                    if (playerHealth >= playerHealthMax)
@@ -168,7 +168,7 @@ namespace CSLight
                                    {
                                        Console.WriteLine($"Игрок восстанавливает {damageHealingSpell}очков жизни заклинанием {HealingSpell}.\n" +
                                             $"Босс восстанавливает {damageHealingBoss} очков жизни.\n" +
-                                            $"Здоровье Босса: {bossHelth}.\n" +
+                                            $"Здоровье Босса: {bossHealth}.\n" +
                                             $"Здоровье игрока {playerHealth}.");
                                    }
 
@@ -195,7 +195,7 @@ namespace CSLight
 
                 }
 
-                if (bossHelth == 0 && playerHealth == 0)
+                if (bossHealth == 0 && playerHealth == 0)
                 {
                     Console.WriteLine("Ничья");
                     isGame = false;
@@ -205,7 +205,7 @@ namespace CSLight
                     Console.WriteLine("Вы проиграли");
                     isGame = false;
                 }
-                else if (bossHelth <= 0)
+                else if (bossHealth <= 0)
                 {
                     Console.WriteLine("Поздравляем, вы победили!");
                     isGame = false;
