@@ -10,7 +10,7 @@ namespace CSLight
             int maxNumberArray = 100;
             Random random = new Random();
             int[,] array = new int[10,10];
-            int maxNumber = 0;
+            int maxNumber = int.MinValue;
             int numberToReplace = 0;
 
             Console.WriteLine("Исходная матрица");
