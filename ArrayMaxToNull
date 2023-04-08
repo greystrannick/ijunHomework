@@ -1,0 +1,54 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int minNumberArray = 1;
+            int maxNumberArray = 100;
+            Random random = new Random();
+            int[,] array = new int[10,10];
+            int maxNumber = 0;
+            int numberToReplace = 0;
+
+            Console.WriteLine("Исходная матрица");
+
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    array[i, j] = random.Next(minNumberArray, maxNumberArray);
+                    Console.Write(array[i, j] + " ");
+
+                    if (maxNumber < array[i, j])
+                    {
+                        maxNumber = array[i, j];
+                    }
+                }
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine("Полученная матрица");
+
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    if (maxNumber == array[i, j])
+                    {
+                        array[i, j] = numberToReplace;
+                    }
+
+                    Console.Write(array[i, j] + " ");
+                }
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine($"Наибольший элемент - {maxNumber}");
+        }
+    }
+}
