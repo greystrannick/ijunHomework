@@ -1,0 +1,47 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int minNumberArray = 1;
+            int maxNumberArray = 9;
+            int minNumberOfRow = 2;
+            int maxNumberOfRow = 10;
+            int minNumberOfColumns = 2;
+            int maxNumberOfColumns = 10;
+            int rowForSum = 1;
+            int columnForMultiplication = 0;
+            int sum2Row = 0;
+            int multiplication1Col = 1;
+            Random random = new Random();
+            int numberOfRow = random.Next(minNumberOfRow, maxNumberOfRow);
+            int numberOfColumns = random.Next(minNumberOfColumns, maxNumberOfColumns);
+            int[,] array = new int[numberOfRow, numberOfColumns];
+
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    array[i, j] = random.Next(minNumberArray, maxNumberArray);
+                    Console.Write(array[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+
+            for (int i = 0; i < array.GetLength(1); i++)
+            {
+                sum2Row += array[rowForSum, i];
+            }
+
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                multiplication1Col *= array[i, columnForMultiplication];
+            }
+
+            Console.WriteLine($"\nСумма чисел в 2 строке: {sum2Row}\nПроизведение чисел в 1 столбце: {multiplication1Col}");
+        }
+    }
+}
