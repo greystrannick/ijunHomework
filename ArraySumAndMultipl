@@ -12,8 +12,8 @@ namespace CSLight
             int maxNumberOfRow = 10;
             int minNumberOfColumns = 2;
             int maxNumberOfColumns = 10;
-            int rowForSum = 1;
-            int columnForMultiplication = 0;
+            int rowIndex = 1;
+            int columnIndex = 0;
             int sum2Row = 0;
             int multiplication1Col = 1;
             Random random = new Random();
@@ -33,12 +33,12 @@ namespace CSLight
 
             for (int i = 0; i < array.GetLength(1); i++)
             {
-                sum2Row += array[rowForSum, i];
+                sum2Row += array[rowIndex, i];
             }
 
             for (int i = 0; i < array.GetLength(0); i++)
             {
-                multiplication1Col *= array[i, columnForMultiplication];
+                multiplication1Col *= array[i, columnIndex];
             }
 
             Console.WriteLine($"\nСумма чисел в 2 строке: {sum2Row}\nПроизведение чисел в 1 столбце: {multiplication1Col}");
