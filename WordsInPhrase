@@ -1,0 +1,24 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string userInput;
+            string[] words;
+            char[] charsDelimiter = { ' ', '.', ',', '!', '?', ':', ';', '(', ')' };
+
+            Console.Write("Введите проедложение:\n>");
+            userInput = Console.ReadLine();
+            words = userInput.Split(charsDelimiter, StringSplitOptions.RemoveEmptyEntries);
+            Console.WriteLine($"{words.Length} слов в тексте:");
+
+            foreach (string word in words)
+            {
+                Console.WriteLine(word);
+            }
+        }
+    }
+}
