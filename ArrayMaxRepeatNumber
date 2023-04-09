@@ -1,0 +1,56 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int sizeArray = 30;
+            int minNumberArray = 0;
+            int maxNumberArray = 9;
+            int repeatingNumber = 0;
+            int repetitionsNumber = 0;
+            int temporaryRepeatLingth = 1;
+            int temporaryRepeatNumber = 0;
+            int[] array = new int[sizeArray];
+            Random random = new Random();
+
+            for(int i = 0; i < array.Length; i++)
+            {
+                array[i] = random.Next(minNumberArray, maxNumberArray);
+                Console.Write(array[i]+" ");
+            }
+
+            Console.WriteLine();
+
+            for (int i = 0; i < array.Length - 1; i++)
+            {
+                if (array[i] == array[i + 1])
+                {
+                    temporaryRepeatNumber = array[i];
+                    temporaryRepeatLingth++;
+                }
+                else
+                {
+                    temporaryRepeatLingth = 1;
+                }
+
+                if (repetitionsNumber < temporaryRepeatLingth)
+                {
+                    repeatingNumber = temporaryRepeatNumber;
+                    repetitionsNumber = temporaryRepeatLingth;
+                }
+            }
+
+            if (repeatingNumber == 0)
+            {
+                Console.WriteLine($"Нет повторяющихся значений.");
+            }
+            else
+            {
+                Console.WriteLine($"Число {repeatingNumber} повторяется в массие {repetitionsNumber} раз подряд.");
+            }
+        }
+    }
+}
