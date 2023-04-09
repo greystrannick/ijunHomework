@@ -1,0 +1,61 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            const string CommandSum = "sum";
+            const string CommandExit = "exit";
+
+            string inputUser;
+            bool isOpen = true;
+            int arraySum = 0;
+            int arrayNumber;
+            int[] array = new int[0];
+
+            while (isOpen)
+            {
+                Console.SetCursorPosition(0, 0);
+                Console.Write($"Введите число для записи в массив, '{CommandSum}' для нахождения суммы, '{CommandExit}' для выхода.\n>");
+                Console.Write("   ");
+                Console.SetCursorPosition(1, 1);
+                inputUser = Console.ReadLine();
+
+                switch (inputUser)
+                {
+                    case CommandExit:
+                        isOpen = false;
+                        break;
+
+                    case CommandSum:
+
+                        for (int i=0; i<array.Length; i++)
+                        {
+                            arraySum += array[i];
+
+                        }
+
+                        Console.SetCursorPosition(0,2);
+                        Console.WriteLine($"Сумма массива: {arraySum}");
+                        break;
+
+                    default:
+                        Console.Clear();
+                        int[] tempArray = new int[array.Length + 1];
+                        arrayNumber = Convert.ToInt32(inputUser);
+
+                        for (int i = 0; i < array.Length; i++)
+                        {
+                            tempArray[i] = array[i];
+                        }
+
+                        tempArray[tempArray.Length - 1] = arrayNumber;
+                        array = tempArray;
+                        break;
+                }
+            }
+        }
+    }
+}
