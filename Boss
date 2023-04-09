@@ -24,10 +24,8 @@ namespace CSLight
             bool isActiveImprovedSpell = false;
             bool isActiveLegendarySpell = false;
             int mainMenu;
-            int attackSpell;
             int bossHealth = 4000;
             int playerHealth = 1500;
-            int playerHealthMax = 1500;
             int damageBaseSpell = 300;
             int damageImprovedSpell = 600;
             int damageLegendarySpell = 900;
@@ -35,7 +33,6 @@ namespace CSLight
             int damageHealingBoss = 100;
             int randomAttackDemonMin = 300;
             int randomAttackDemonMax = 600;
-            int currentDamageBoss;
             string playerSpell = $"{CommandBaseSpell} - {BaseSpell}, базовое заклинание, наносит {damageBaseSpell} урона.\n" +
                 $"{CommandImprovedSpell} - {ImprovedSpell}, огненная смерть выплескивается в форме огромного вулкана, наносит {damageImprovedSpell} урона. Можно применить только после Огненного шара.\n" +
                 $"{CommandLegendarySpell} - {LegendarySpell}, маг создаёт у себя в руке легендарный клинок, целиком состоящий из сжатого первородного пламени, наносит {damageLegendarySpell} урона. Можно применить только после Буйства вулкана.\n" +
@@ -50,7 +47,7 @@ namespace CSLight
             {
                 Console.SetCursorPosition(0, 0);
                 Console.WriteLine($"Главное меню:\n{CommandInfoPlayer}.Посмотреть умения игрока.\n{CommandInfoBoss}.Посмотреть умения Босса.\n{CommandBattle}.Начать битву с Боссом.\n{CommandEscape}.Убежать позорно с поля боя.\n");
-                Console.SetCursorPosition(0,18);
+                Console.SetCursorPosition(0, 18);
                 Console.Write("---------------\n> ");
                 mainMenu = Convert.ToInt32(Console.ReadLine());
 
@@ -69,6 +66,9 @@ namespace CSLight
                         break;
 
                     case CommandBattle:
+                        int attackSpell;
+                        int currentDamageBoss;
+
                         Console.Clear();
                         Console.SetCursorPosition(0, 0);
                         Console.WriteLine("Да начнется БИТВА и победит в ней сильнейший!!!");
@@ -98,7 +98,6 @@ namespace CSLight
                                     break;
 
                                 case CommandImprovedSpell:
-
                                     if (isActiveImprovedSpell)
                                     {
                                         currentDamageBoss = random.Next(randomAttackDemonMin, randomAttackDemonMax);
@@ -119,11 +118,9 @@ namespace CSLight
                                         Console.SetCursorPosition(0, 12);
                                         Console.WriteLine($"Использование заклинания {ImprovedSpell} невозможно.");
                                     }
-
                                     break;
 
                                 case CommandLegendarySpell:
-
                                     if (isActiveLegendarySpell)
                                     {
                                         currentDamageBoss = random.Next(randomAttackDemonMin, randomAttackDemonMax);
@@ -143,7 +140,6 @@ namespace CSLight
                                         Console.SetCursorPosition(0, 12);
                                         Console.WriteLine($"Использование заклинания {LegendarySpell} невозможно.");
                                     }
-
                                     break;
 
                                 case CommandEscape:
@@ -154,33 +150,31 @@ namespace CSLight
                                     break;
 
                                 case CommandHealingSpell:
+                                    int playerHealthMax = 1500;
                                     Console.Clear();
                                     Console.SetCursorPosition(0, 12);
                                     bossHealth += damageHealingBoss;
                                     playerHealth += damageHealingSpell;
 
-                                   if (playerHealth >= playerHealthMax)
-                                   {
-                                       playerHealth = playerHealthMax;
-                                            Console.WriteLine("У вас полные жизни.");
-                                   }
-                                   else
-                                   {
-                                       Console.WriteLine($"Игрок восстанавливает {damageHealingSpell}очков жизни заклинанием {HealingSpell}.\n" +
-                                            $"Босс восстанавливает {damageHealingBoss} очков жизни.\n" +
-                                            $"Здоровье Босса: {bossHealth}.\n" +
-                                            $"Здоровье игрока {playerHealth}.");
-                                   }
-
+                                    if (playerHealth >= playerHealthMax)
+                                    {
+                                        playerHealth = playerHealthMax;
+                                        Console.WriteLine("У вас полные жизни.");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"Игрок восстанавливает {damageHealingSpell}очков жизни заклинанием {HealingSpell}.\n" +
+                                             $"Босс восстанавливает {damageHealingBoss} очков жизни.\n" +
+                                             $"Здоровье Босса: {bossHealth}.\n" +
+                                             $"Здоровье игрока {playerHealth}.");
+                                    }
                                     break;
 
                                 default:
                                     Console.Clear();
                                     break;
-
                             }
                         }
-
                         break;
 
                     case CommandEscape:
@@ -210,7 +204,6 @@ namespace CSLight
                     Console.WriteLine("Поздравляем, вы победили!");
                     isGame = false;
                 }
-
             }
         }
     }
