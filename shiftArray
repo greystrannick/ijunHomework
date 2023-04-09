@@ -1,0 +1,42 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int minArraySize = 10;
+            int maxArraySize = 15;
+            int arraySize;
+            Random random = new Random();
+            arraySize = random.Next(minArraySize,maxArraySize);
+            int[] numbers = new int[arraySize];
+            
+            Console.WriteLine("Исходный массив:");
+
+            for (int i = 0; i < numbers.Length; ++i)
+            {
+                numbers[i] = i;
+                Console.Write(numbers[i] + " | ");
+            }
+
+            Console.Write("\nВведите сдвиг массива:\n>");
+            int shiftArray = Convert.ToInt32(Console.ReadLine());
+
+            for (int i = 0; i < shiftArray; i++)
+            {
+                int lastNumber = numbers[numbers.Length - 1];
+
+                for (int j = numbers.Length - 1; j > 0; j--)
+                    numbers[j] = numbers[j - 1];
+                numbers[0] = lastNumber;
+            }
+
+            Console.WriteLine("Новый массив: ");
+
+            for (int i = 0; i < numbers.Length; i++)
+                Console.Write(numbers[i] + " | ");
+        }
+    }
+}
