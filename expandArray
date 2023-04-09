@@ -8,12 +8,10 @@ namespace CSLight
         {
             const string CommandSum = "sum";
             const string CommandExit = "exit";
-
             string inputUser;
             bool isOpen = true;
-            int arraySum = 0;
-            int arrayNumber;
-            int[] array = new int[0];
+            
+            int[] numbers = new int[0];
 
             while (isOpen)
             {
@@ -30,29 +28,30 @@ namespace CSLight
                         break;
 
                     case CommandSum:
+                        int arraySum = 0;
+                        int arrayNumber;
 
-                        for (int i=0; i<array.Length; i++)
+                        for (int i = 0; i < numbers.Length; i++)
                         {
-                            arraySum += array[i];
-
+                            arraySum += numbers[i];
                         }
 
-                        Console.SetCursorPosition(0,2);
-                        Console.WriteLine($"Сумма массива: {arraySum}");
+                        Console.SetCursorPosition(0, 2);
+                        Console.WriteLine($"Сумма элементов массива: {arraySum}");
                         break;
 
                     default:
                         Console.Clear();
-                        int[] tempArray = new int[array.Length + 1];
+                        int[] tempArray = new int[numbers.Length + 1];
                         arrayNumber = Convert.ToInt32(inputUser);
 
-                        for (int i = 0; i < array.Length; i++)
+                        for (int i = 0; i < numbers.Length; i++)
                         {
-                            tempArray[i] = array[i];
+                            tempArray[i] = numbers[i];
                         }
 
                         tempArray[tempArray.Length - 1] = arrayNumber;
-                        array = tempArray;
+                        numbers = tempArray;
                         break;
                 }
             }
