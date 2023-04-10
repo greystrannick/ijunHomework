@@ -43,7 +43,7 @@ namespace CSLight
                 }
             }
 
-            if (repeatingNumber == 0)
+            if (repetitionsNumber == 1)
             {
                 Console.WriteLine($"Нет повторяющихся значений.");
             }
