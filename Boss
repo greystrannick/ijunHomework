@@ -20,10 +20,10 @@ namespace CSLight
             const string HealingSpell = "Целительные ладони";
             const string EscapeSpell = "Крылья ветра";
 
-            bool isGame = true;
+            bool isGameRunning = true;
             bool isActiveImprovedSpell = false;
             bool isActiveLegendarySpell = false;
-            int mainMenu;
+            int mainMenuCommand;
             int bossHealth = 4000;
             int playerHealth = 1500;
             int damageBaseSpell = 300;
@@ -33,7 +33,7 @@ namespace CSLight
             int damageHealingBoss = 100;
             int randomAttackDemonMin = 300;
             int randomAttackDemonMax = 600;
-            string playerSpell = $"{CommandBaseSpell} - {BaseSpell}, базовое заклинание, наносит {damageBaseSpell} урона.\n" +
+            string playerSpellsList = $"{CommandBaseSpell} - {BaseSpell}, базовое заклинание, наносит {damageBaseSpell} урона.\n" +
                 $"{CommandImprovedSpell} - {ImprovedSpell}, огненная смерть выплескивается в форме огромного вулкана, наносит {damageImprovedSpell} урона. Можно применить только после Огненного шара.\n" +
                 $"{CommandLegendarySpell} - {LegendarySpell}, маг создаёт у себя в руке легендарный клинок, целиком состоящий из сжатого первородного пламени, наносит {damageLegendarySpell} урона. Можно применить только после Буйства вулкана.\n" +
                 $"{CommandEscape} - {EscapeSpell}, позволяют мгновенно покинуть враждебную локацию.\n" +
@@ -43,20 +43,20 @@ namespace CSLight
                 $"Вы в любое время можете сохранить свою нежную шкурку путем бегства.";
             Random random = new Random();
 
-            while (isGame)
+            while (isGameRunning)
             {
                 Console.SetCursorPosition(0, 0);
                 Console.WriteLine($"Главное меню:\n{CommandInfoPlayer}.Посмотреть умения игрока.\n{CommandInfoBoss}.Посмотреть умения Босса.\n{CommandBattle}.Начать битву с Боссом.\n{CommandEscape}.Убежать позорно с поля боя.\n");
                 Console.SetCursorPosition(0, 18);
                 Console.Write("---------------\n> ");
-                mainMenu = Convert.ToInt32(Console.ReadLine());
+                mainMenuCommand = Convert.ToInt32(Console.ReadLine());
 
-                switch (mainMenu)
+                switch (mainMenuCommand)
                 {
                     case CommandInfoPlayer:
                         Console.Clear();
                         Console.SetCursorPosition(0, 6);
-                        Console.WriteLine(playerSpell);
+                        Console.WriteLine(playerSpellsList);
                         break;
 
                     case CommandInfoBoss:
@@ -73,11 +73,11 @@ namespace CSLight
                         Console.SetCursorPosition(0, 0);
                         Console.WriteLine("Да начнется БИТВА и победит в ней сильнейший!!!");
 
-                        while (isGame && bossHealth > 0 && playerHealth > 0)
+                        while (bossHealth > 0 && playerHealth > 0)
                         {
                             Console.SetCursorPosition(0, 1);
                             Console.WriteLine("Выберите заклинание для атаки.");
-                            Console.WriteLine(playerSpell);
+                            Console.WriteLine(playerSpellsList);
                             Console.SetCursorPosition(0, 18);
                             Console.Write("---------------\n> ");
                             attackSpell = Convert.ToInt32(Console.ReadLine());
@@ -143,7 +143,8 @@ namespace CSLight
                                     break;
 
                                 case CommandEscape:
-                                    isGame = false;
+                                    bossHealth = 0;
+                                    playerHealth = 0;
                                     Console.Clear();
                                     Console.SetCursorPosition(0, 0);
                                     Console.WriteLine("Беги подлый ТРУС!!!");
@@ -180,7 +181,7 @@ namespace CSLight
                     case CommandEscape:
                         Console.Clear();
                         Console.WriteLine("Беги подлый ТРУС!!!");
-                        isGame = false;
+                        isGameRunning = false;
                         break;
 
                     default:
@@ -192,17 +193,17 @@ namespace CSLight
                 if (bossHealth == 0 && playerHealth == 0)
                 {
                     Console.WriteLine("Ничья");
-                    isGame = false;
+                    isGameRunning = false;
                 }
                 else if (playerHealth <= 0)
                 {
                     Console.WriteLine("Вы проиграли");
-                    isGame = false;
+                    isGameRunning = false;
                 }
                 else if (bossHealth <= 0)
                 {
                     Console.WriteLine("Поздравляем, вы победили!");
-                    isGame = false;
+                    isGameRunning = false;
                 }
             }
         }
