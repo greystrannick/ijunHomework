@@ -6,24 +6,19 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            const int CommandInfoPlayer = 1;
-            const int CommandInfoBoss = 2;
-            const int CommandBattle = 3;
-            const int CommandBaseSpell = 1;
-            const int CommandImprovedSpell = 2;
-            const int CommandLegendarySpell = 3;
-            const int CommandHealingSpell = 5;
-            const int CommandEscape = 4;
-            const string BaseSpell = "Огненный шар";
-            const string ImprovedSpell = "Буйство вулкана";
-            const string LegendarySpell = "Испепеляющий Хвост Кометы";
-            const string HealingSpell = "Целительные ладони";
-            const string EscapeSpell = "Крылья ветра";
+            const string CommandInfoPlayer = "1";
+            const string CommandInfoBoss = "2";
+            const string CommandBattle = "3";
+            const string CommandBaseSpell = "1";
+            const string CommandImprovedSpell = "2";
+            const string CommandLegendarySpell = "3";
+            const string CommandHealingSpell = "5";
+            const string CommandEscape = "4";
 
             bool isGameRunning = true;
             bool isActiveImprovedSpell = false;
             bool isActiveLegendarySpell = false;
-            int mainMenuCommand;
+            string mainMenuCommand;
             int bossHealth = 4000;
             int playerHealth = 1500;
             int damageBaseSpell = 300;
@@ -33,6 +28,11 @@ namespace CSLight
             int damageHealingBoss = 100;
             int randomAttackDemonMin = 300;
             int randomAttackDemonMax = 600;
+            string BaseSpell = "Огненный шар";
+            string ImprovedSpell = "Буйство вулкана";
+            string LegendarySpell = "Испепеляющий Хвост Кометы";
+            string HealingSpell = "Целительные ладони";
+            string EscapeSpell = "Крылья ветра";
             string playerSpellsList = $"{CommandBaseSpell} - {BaseSpell}, базовое заклинание, наносит {damageBaseSpell} урона.\n" +
                 $"{CommandImprovedSpell} - {ImprovedSpell}, огненная смерть выплескивается в форме огромного вулкана, наносит {damageImprovedSpell} урона. Можно применить только после Огненного шара.\n" +
                 $"{CommandLegendarySpell} - {LegendarySpell}, маг создаёт у себя в руке легендарный клинок, целиком состоящий из сжатого первородного пламени, наносит {damageLegendarySpell} урона. Можно применить только после Буйства вулкана.\n" +
@@ -49,7 +49,7 @@ namespace CSLight
                 Console.WriteLine($"Главное меню:\n{CommandInfoPlayer}.Посмотреть умения игрока.\n{CommandInfoBoss}.Посмотреть умения Босса.\n{CommandBattle}.Начать битву с Боссом.\n{CommandEscape}.Убежать позорно с поля боя.\n");
                 Console.SetCursorPosition(0, 18);
                 Console.Write("---------------\n> ");
-                mainMenuCommand = Convert.ToInt32(Console.ReadLine());
+                mainMenuCommand = Console.ReadLine();
 
                 switch (mainMenuCommand)
                 {
@@ -66,7 +66,7 @@ namespace CSLight
                         break;
 
                     case CommandBattle:
-                        int attackSpell;
+                        string attackSpell;
                         int currentDamageBoss;
 
                         Console.Clear();
@@ -80,7 +80,7 @@ namespace CSLight
                             Console.WriteLine(playerSpellsList);
                             Console.SetCursorPosition(0, 18);
                             Console.Write("---------------\n> ");
-                            attackSpell = Convert.ToInt32(Console.ReadLine());
+                            attackSpell = Console.ReadLine();
 
                             switch (attackSpell)
                             {
@@ -190,21 +190,23 @@ namespace CSLight
 
                 }
 
-                if (bossHealth == 0 && playerHealth == 0)
+                if ((bossHealth == 0 && playerHealth == 0) || playerHealth <= 0 || bossHealth <= 0)
                 {
-                    Console.WriteLine("Ничья");
                     isGameRunning = false;
                 }
-                else if (playerHealth <= 0)
-                {
-                    Console.WriteLine("Вы проиграли");
-                    isGameRunning = false;
-                }
-                else if (bossHealth <= 0)
-                {
-                    Console.WriteLine("Поздравляем, вы победили!");
-                    isGameRunning = false;
-                }
+            }
+
+            if (bossHealth == 0 && playerHealth == 0)
+            {
+                Console.WriteLine("Ничья");
+            }
+            else if (playerHealth <= 0)
+            {
+                Console.WriteLine("Вы проиграли");
+            }
+            else if (bossHealth <= 0)
+            {
+                Console.WriteLine("Поздравляем, вы победили!");
             }
         }
     }
