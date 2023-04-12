@@ -143,11 +143,10 @@ namespace CSLight
                                     break;
 
                                 case CommandEscape:
-                                    bossHealth = 0;
                                     playerHealth = 0;
                                     Console.Clear();
                                     Console.SetCursorPosition(0, 0);
-                                    Console.WriteLine("Беги подлый ТРУС!!!");
+                                    Console.WriteLine("Беги подлый ТРУС!!! Ты проиграл!");
                                     break;
 
                                 case CommandHealingSpell:
@@ -180,7 +179,7 @@ namespace CSLight
 
                     case CommandEscape:
                         Console.Clear();
-                        Console.WriteLine("Беги подлый ТРУС!!!");
+                        Console.WriteLine("Беги подлый ТРУС!!! Ты проиграл!");
                         isGameRunning = false;
                         break;
 
@@ -190,15 +189,15 @@ namespace CSLight
 
                 }
 
-                if ((bossHealth == 0 && playerHealth == 0) || playerHealth <= 0 || bossHealth <= 0)
+                if (playerHealth <= 0 || bossHealth <= 0)
                 {
                     isGameRunning = false;
                 }
             }
 
-            if (bossHealth == 0 && playerHealth == 0)
+            if (bossHealth <= 0 && playerHealth <= 0)
             {
-                Console.WriteLine("Ничья");
+                Console.WriteLine("Оба противника повержены!!! Победителя нет!!!");
             }
             else if (playerHealth <= 0)
             {
