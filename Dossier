@@ -1,0 +1,112 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            const string CommandAddDossier = "1";
+            const string CommandOutputDossiers = "2";
+            const string CommandSearchByLastName = "3";
+            const string CommandDeleteDossier = "4";
+            const string CommandExitDossier = "5";
+
+            string[] fullNames = new string[0];
+            string[] positions = new string[0];
+            string userInput;
+            bool isRunProgramm = true;
+
+            while (isRunProgramm)
+            {
+                Console.Clear();
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("Выберите пункт меню для работы с досье работников:");
+                Console.WriteLine($"{CommandAddDossier} - добавить новую запись в досье.\n" +
+                    $"{CommandOutputDossiers} - вывести досье на всех работников.\n" +
+                    $"{CommandSearchByLastName} - поиск работника в досье по фамилии.\n" +
+                    $"{CommandDeleteDossier} - удаление записи о работнике из досье.\n" +
+                    $"{CommandExitDossier} - выход из программы.\n");
+                Console.Write(">");
+                userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case CommandAddDossier:
+                        AddDossier(ref fullNames, ref positions, userInput);
+                        break;
+
+                    case CommandOutputDossiers:
+                        OutputDossiers(fullNames, positions);
+                        break;
+
+                    case CommandSearchByLastName:
+                        SearchByLastName();
+                        break;
+
+                    case CommandDeleteDossier:
+                        DeleteDossier();
+                        break;
+
+                    case CommandExitDossier:
+                        isRunProgramm = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Такой команды нет.\nДля продолжения нажмите любую клавишу...");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
+
+        static void AddDossier(ref string[] fullNames, ref string[] positions, string userInput)
+        {
+            Console.Write("Введите ФИО: ");
+            userInput = Console.ReadLine();
+            fullNames = IncreasDossier(fullNames, userInput);
+
+            Console.Write("Введите должность: ");
+            userInput = Console.ReadLine();
+            positions = IncreasDossier(positions, userInput);
+        }
+
+        static string[] IncreasDossier(string[] arrayAddition, string addValue)
+        {
+            string[] temparrayAddition = new string[arrayAddition.Length + 1];
+
+            for (int i = 0; i < arrayAddition.Length; i++)
+            {
+                temparrayAddition[i] = arrayAddition[i];
+            }
+
+            temparrayAddition[temparrayAddition.Length - 1] = addValue;
+            arrayAddition = temparrayAddition;
+            return arrayAddition;
+        }
+        static void OutputDossiers(string[] fullNames, string[] positions)
+        {
+            for (int i = 0; i < fullNames.Length; i++)
+            {
+                int counter = i + 1;
+                Console.Write($"{counter}. {fullNames[i]} - {positions[i]}");
+                Console.WriteLine();
+            }
+
+            Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
+            Console.ReadKey();
+        }
+        static void SearchByLastName()
+        {
+
+        }
+        static void DeleteDossier()
+        {
+
+        }
+        static void ExitDossier()
+        {
+
+        }
+    }
+}
