@@ -1,0 +1,42 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int positionX = 0;
+            int positionY = 0;
+            int fillPercentage = 0;
+            
+            DrawBar(positionX, positionY, fillPercentage);
+        }
+
+        static void DrawBar(int positionX, int positionY, int fillPercentage)
+        {
+            int maxPercent = 100;
+            int barLength = 20;
+            string bar;
+            char symbolFill = '#';
+            char symbolEmpty = '_';
+
+            Console.Write("Введите x и y в которых будет бар.\nX: ");
+            positionX = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Y: ");
+            positionY = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Введите % закраски бара: ");
+            fillPercentage = Convert.ToInt32(Console.ReadLine());
+
+            Console.Clear();
+            int filledBarLength = (barLength * fillPercentage) / maxPercent;
+            int emptyBarLength = barLength - filledBarLength;
+            Console.SetCursorPosition(positionY, positionX);
+            bar = new string(symbolFill, filledBarLength);
+            Console.Write($"[{bar}");
+            bar = new string(symbolEmpty, emptyBarLength);
+            Console.Write($"{bar}]");
+            Console.WriteLine();
+        }
+    }
+}
