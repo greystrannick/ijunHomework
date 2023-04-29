@@ -33,7 +33,7 @@ namespace CSLight
                 switch (userInput)
                 {
                     case CommandAddDossier:
-                        AddDossier(ref fullNames, ref positions, userInput);
+                        AddDossier(userInput, ref fullNames, ref positions);
                         break;
 
                     case CommandOutputDossiers:
@@ -41,11 +41,11 @@ namespace CSLight
                         break;
 
                     case CommandSearchByLastName:
-                        SearchByLastName();
+                        SearchByLastName(userInput, ref fullNames, ref positions);
                         break;
 
                     case CommandDeleteDossier:
-                        DeleteDossier();
+                        DeleteDossier(ref fullNames,ref  positions);
                         break;
 
                     case CommandExitDossier:
@@ -60,7 +60,7 @@ namespace CSLight
             }
         }
 
-        static void AddDossier(ref string[] fullNames, ref string[] positions, string userInput)
+        static void AddDossier(string userInput, ref string[] fullNames, ref string[] positions)
         {
             Console.Write("Введите ФИО: ");
             userInput = Console.ReadLine();
@@ -96,17 +96,69 @@ namespace CSLight
             Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
             Console.ReadKey();
         }
-        static void SearchByLastName()
+        static void SearchByLastName(string userInput, ref string[] fullNames, ref string[] positions)
         {
+            bool isSuccessfulSearch = false;
 
+            Console.Write("Введите фaмилию: ");
+            userInput = Console.ReadLine();
+
+            for (int i = 0; i < fullNames.Length; i++)
+            {
+                string[] searchName;
+                searchName = fullNames[i].Split();
+
+                if (searchName[0] == userInput)
+                {
+                    int counter = i + 1;
+                    Console.WriteLine($"{counter}. {fullNames[i]} - {positions[i]}");
+                    isSuccessfulSearch = true;
+                }
+            }
+
+            if (isSuccessfulSearch == false)
+            {
+                Console.WriteLine($"\nВ досье сотрудников с фамилией {userInput} не обнаружено.");
+            }
+
+            Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
+            Console.ReadKey();
         }
-        static void DeleteDossier()
+        static void DeleteDossier(ref string[] fullNames,ref  string[] positions)
         {
+            Console.Write("Введите индекс фамилии человека, досье которого надо удалить: ");
+            int deleteNumber = Convert.ToInt32(Console.ReadLine()) - 1;
 
+            if (deleteNumber <= fullNames.Length && deleteNumber > -1)
+            {
+                fullNames = DecreaseArray(fullNames, deleteNumber);
+                positions = DecreaseArray(positions, deleteNumber);
+                Console.WriteLine($"Досье с индексом [ {deleteNumber+1} ] удалено.");
+            }
+            else
+            {
+                Console.WriteLine("Досье с таким индексом не существует!!!");
+            }
+
+            Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
+            Console.ReadKey();
         }
-        static void ExitDossier()
+        static string[] DecreaseArray(string[] array, int deleteNumber)
         {
+            string[] temporaryArray = new string[array.Length - 1];
 
+            for (int i = 0; i < deleteNumber; i++)
+            {
+                temporaryArray[i] = array[i];
+            }
+
+            for (int i = deleteNumber; i < array.Length - 1; i++)
+            {
+                temporaryArray[i] = array[i + 1];
+            }
+
+            array = temporaryArray;
+            return array;
         }
     }
 }
