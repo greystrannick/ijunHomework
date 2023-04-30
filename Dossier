@@ -15,6 +15,7 @@ namespace CSLight
             string[] fullNames = new string[0];
             string[] positions = new string[0];
             string userInput;
+
             bool isRunProgramm = true;
 
             while (isRunProgramm)
@@ -45,7 +46,7 @@ namespace CSLight
                         break;
 
                     case CommandDeleteDossier:
-                        DeleteDossier(ref fullNames,ref  positions);
+                        DeleteDossier(ref fullNames, ref positions);
                         break;
 
                     case CommandExitDossier:
@@ -84,6 +85,7 @@ namespace CSLight
             arrayAddition = temparrayAddition;
             return arrayAddition;
         }
+        
         static void OutputDossiers(string[] fullNames, string[] positions)
         {
             for (int i = 0; i < fullNames.Length; i++)
@@ -96,6 +98,7 @@ namespace CSLight
             Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
             Console.ReadKey();
         }
+        
         static void SearchByLastName(string userInput, ref string[] fullNames, ref string[] positions)
         {
             bool isSuccessfulSearch = false;
@@ -124,7 +127,8 @@ namespace CSLight
             Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
             Console.ReadKey();
         }
-        static void DeleteDossier(ref string[] fullNames,ref  string[] positions)
+
+        static void DeleteDossier(ref string[] fullNames, ref string[] positions)
         {
             Console.Write("Введите индекс фамилии человека, досье которого надо удалить: ");
             int deleteNumber = Convert.ToInt32(Console.ReadLine()) - 1;
@@ -133,7 +137,7 @@ namespace CSLight
             {
                 fullNames = DecreaseArray(fullNames, deleteNumber);
                 positions = DecreaseArray(positions, deleteNumber);
-                Console.WriteLine($"Досье с индексом [ {deleteNumber+1} ] удалено.");
+                Console.WriteLine($"Досье с индексом [ {deleteNumber + 1} ] удалено.");
             }
             else
             {
@@ -143,6 +147,7 @@ namespace CSLight
             Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
             Console.ReadKey();
         }
+
         static string[] DecreaseArray(string[] array, int deleteNumber)
         {
             string[] temporaryArray = new string[array.Length - 1];
