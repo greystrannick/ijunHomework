@@ -1,0 +1,46 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int number;
+
+            number = GetNumber();
+        }
+
+        static int GetNumber()
+        {
+            bool isWork = true;
+
+            int number = 0;
+                        
+            string enterValue;
+
+            while (isWork)
+            {
+                Console.Clear();
+                Console.Write("Введите число: \n>");
+                enterValue = Console.ReadLine();
+
+                bool isSusseful = int.TryParse(enterValue, out number);
+
+                if (isSusseful)
+                {
+                    Console.WriteLine($"Конвертация '{enterValue}' в {number} - успешна.");
+                    isWork = false;
+                }
+                else
+                {
+                    Console.WriteLine($"Попытка преобразования  '{enterValue}' - не удалась.");
+                    Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
+                    Console.ReadKey();
+                }
+            }
+
+            return number;
+        }
+    }
+}
