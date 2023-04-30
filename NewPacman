@@ -1,0 +1,171 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            bool isPlaying = true;
+
+            int playerX;
+            int playerY;
+            int playerDX=0;
+            int playerDY=0;
+            int allMoney = 0;
+            int collectMoney = 0;
+            
+            char player = '@';
+            char money = '.';
+            char wall = '#';
+            char empty = ' ';
+
+            Console.CursorVisible = false;
+
+            char[,] map = InitMap(out playerX, out playerY, player, money, wall, empty, ref allMoney);
+                        
+            DrawMap(map);
+
+            while (isPlaying)
+            {
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key=Console.ReadKey(true);
+
+                    ChangeDirection(key, ref playerDX, ref playerDY);
+                }
+
+                if (map[playerX + playerDX, playerY + playerDY] != wall)
+                {
+                    Move(ref playerX, ref playerY, playerDX, playerDY, player,empty);
+
+                    CollectMoney(map, money, empty, playerX, playerY, ref collectMoney);
+                }
+
+                Console.SetCursorPosition(0, 21);
+                Console.WriteLine($"Собрано {collectMoney} из {allMoney} монет.");
+
+                System.Threading.Thread.Sleep(150);
+
+                if (collectMoney==allMoney)
+                {
+                    isPlaying = false;
+                }
+            }
+
+            if (collectMoney == allMoney)
+            {
+                Console.SetCursorPosition(0,23);
+                Console.WriteLine("Вы собрали все монеты на карте.\nПоздравляем с Победой!");
+            }
+        }
+
+        static void Move(ref int playerX, ref int playerY, int playerDX, int playerDY, char player, char empty)
+        {
+            Console.SetCursorPosition(playerY, playerX);
+            Console.Write(empty);
+
+            playerX += playerDX;
+            playerY += playerDY;
+
+            Console.SetCursorPosition(playerY, playerX);
+            Console.Write(player);
+        }
+
+        static void CollectMoney(char[,] map,char money, char empty, int playerX, int playerY, ref int collectMoney)
+        {
+            if (map[playerX, playerY] == money)
+            {
+                collectMoney++;
+                map[playerX, playerY] = empty;
+            }
+        }
+
+        static void ChangeDirection(ConsoleKeyInfo key, ref int playerDX, ref int playerDY)
+        {
+            const ConsoleKey CommandUp = ConsoleKey.UpArrow;
+            const ConsoleKey CommandDown = ConsoleKey.DownArrow;
+            const ConsoleKey CommandLeft = ConsoleKey.LeftArrow;
+            const ConsoleKey CommandRight = ConsoleKey.RightArrow;
+
+            switch (key.Key)
+            {
+                case CommandUp:
+                    playerDX = -1; playerDY = 0;
+                    break;
+
+                case CommandDown:
+                    playerDX = 1; playerDY = 0;
+                    break;
+
+                case CommandLeft:
+                    playerDX = 0; playerDY = -1;
+                    break;
+
+                case CommandRight:
+                    playerDX = 0; playerDY = 1;
+                    break;
+            }
+        }
+
+        static char[,] InitMap(out int playerX, out int playerY, char player, char money, char wall, char empty, ref int allMoney)
+        {
+            playerX = 0;
+            playerY = 0;
+            char[,] sourceMap ={
+                        {wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall},
+                        { wall,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,wall},
+                        { wall,empty,wall,wall,wall,wall,wall,wall,wall,wall,wall,empty,wall,wall,wall,wall,wall,empty,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,empty,wall},
+                        { wall,empty,wall,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,wall,empty,wall},
+                        { wall,empty,wall,empty,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,empty,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,empty,wall,empty,wall},
+                        { wall,empty,wall,empty,wall,empty,wall,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,wall,empty,empty,empty,empty,empty,wall,empty,wall,empty,wall},
+                        { wall,empty,wall,empty,wall,empty,empty,empty,empty,empty,wall,wall,wall,wall,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,wall,empty,wall,empty,wall},
+                        { wall,empty,wall,empty,wall,empty,wall,wall,wall,empty,wall,empty,empty,wall,empty,wall,wall,wall,wall,wall,empty,wall,wall,wall,empty,empty,empty,wall,empty,wall},
+                        { wall,empty,empty,empty,wall,empty,wall,empty,empty,empty,wall,empty,empty,wall,empty,empty,empty,empty,empty,empty,empty,empty,empty,wall,empty,wall,wall,wall,empty,wall},
+                        { wall,empty,wall,empty,wall,empty,wall,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,wall,empty,empty,wall,empty,wall,empty,wall,empty,empty,empty,wall},
+                        { wall,empty,wall,empty,wall,empty,wall,empty,wall,wall,wall,wall,empty,wall,wall,wall,wall,empty,wall,wall,wall,wall,empty,empty,empty,wall,empty,wall,empty,wall},
+                        { wall,empty,wall,empty,empty,empty,wall,empty,wall,empty,empty,wall,empty,wall,empty,empty,wall,empty,wall,empty,wall,empty,empty,wall,empty,empty,empty,wall,wall,wall},
+                        { wall,empty,wall,empty,wall,empty,wall,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,wall,empty,wall,empty,wall,empty,wall},
+                        { wall,empty,wall,empty,wall,empty,wall,wall,wall,wall,wall,empty,wall,wall,wall,wall,wall,wall,wall,empty,wall,wall,wall,wall,empty,wall,empty,wall,empty,wall},
+                        { wall,empty,wall,empty,wall,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,wall,empty,empty,empty,wall},
+                        { wall,empty,wall,empty,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,empty,wall,wall,wall,wall,empty,empty,empty,wall,wall,wall,wall,wall,empty,wall},
+                        { wall,empty,wall,empty,empty,empty,empty,empty,empty,wall,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,wall,empty,empty,empty,empty,empty,empty,empty,wall},
+                        {wall,empty,wall,wall,wall,wall,wall,wall,empty,wall,empty,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,empty,wall},
+                        { wall,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,player,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,wall},
+                        { wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall,wall},
+                        };
+
+            for (int i = 0; i < sourceMap.GetLength(0); i++)
+            {
+                for (int j = 0; j < sourceMap.GetLength(1); j++)
+                {
+                    if (sourceMap[i, j] == player)
+                    {
+                        playerX = i;
+                        playerY = j;
+                    }
+                    else if (sourceMap[i,j]==empty)
+                    {
+                        sourceMap[i, j] = money;
+                        allMoney++;
+                    }
+                }
+            }
+
+            return sourceMap;
+        }
+
+        static void DrawMap(char[,] map)
+        {
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    Console.Write($"{map[i, j]}");
+                }
+
+                Console.WriteLine();
+            }
+        }
+    }
+}
