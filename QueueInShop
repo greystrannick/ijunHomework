@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            int moneyInTheAccount=0;
+            int customer = 1;
+
+            Queue<int> shopCustomers = QueueFilling();
+
+            while (shopCustomers.Count > 0)
+            {
+                int money = shopCustomers.Dequeue();
+                moneyInTheAccount += money;
+
+                Console.WriteLine($"{customer++} клиент купил товара на сумму {money} рублей.");
+                Console.WriteLine($"В кассе - {moneyInTheAccount} рублей.");
+                Console.WriteLine("Нажмите клавишу, чтобы обслужить следующего клиента");
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+
+        static Queue<int> QueueFilling()
+        {
+            int minCustomers = 10;
+            int maxCustomers = 20;
+            int minMoneyCustomer = 200;
+            int maxMoneyCustomer = 1000;
+
+            Queue<int> shopCustomers = new Queue<int>();
+
+            Random random = new Random();
+
+            int customersQuantity = random.Next(minCustomers, maxCustomers);
+
+            for (int i = 0; i < customersQuantity; i++)
+            {
+                int moneyCustomer = random.Next(minMoneyCustomer, maxMoneyCustomer);
+                shopCustomers.Enqueue(moneyCustomer);
+            }
+
+            return shopCustomers;
+        }
+
+    }
+}
