@@ -7,10 +7,17 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
+            Queue<int> shopCustomers = new Queue<int>();
+
+            FillQueue(ref shopCustomers);
+
+            WorkQueue(shopCustomers);
+        }
+
+        static void WorkQueue(Queue<int> shopCustomers)
+        {
             int moneyInTheAccount = 0;
             int customerNumber = 1;
-
-            Queue<int> shopCustomers = FillingQueue();
 
             while (shopCustomers.Count > 0)
             {
@@ -25,14 +32,12 @@ namespace CSLight
             }
         }
 
-        static Queue<int> FillingQueue()
+        static void FillQueue(ref Queue<int> shopCustomers)
         {
             int minCustomers = 10;
             int maxCustomers = 20;
             int minMoneyCustomer = 200;
             int maxMoneyCustomer = 1000;
-
-            Queue<int> shopCustomers = new Queue<int>();
 
             Random random = new Random();
 
@@ -43,8 +48,6 @@ namespace CSLight
                 int moneyCustomer = random.Next(minMoneyCustomer, maxMoneyCustomer);
                 shopCustomers.Enqueue(moneyCustomer);
             }
-
-            return shopCustomers;
         }
     }
 }
