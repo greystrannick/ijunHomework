@@ -7,18 +7,17 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            
-            int moneyInTheAccount=0;
-            int customer = 1;
+            int moneyInTheAccount = 0;
+            int customerNumber = 1;
 
-            Queue<int> shopCustomers = QueueFilling();
+            Queue<int> shopCustomers = FillingQueue();
 
             while (shopCustomers.Count > 0)
             {
                 int money = shopCustomers.Dequeue();
                 moneyInTheAccount += money;
 
-                Console.WriteLine($"{customer++} клиент купил товара на сумму {money} рублей.");
+                Console.WriteLine($"{customerNumber++} клиент купил товара на сумму {money} рублей.");
                 Console.WriteLine($"В кассе - {moneyInTheAccount} рублей.");
                 Console.WriteLine("Нажмите клавишу, чтобы обслужить следующего клиента");
                 Console.ReadKey();
@@ -26,7 +25,7 @@ namespace CSLight
             }
         }
 
-        static Queue<int> QueueFilling()
+        static Queue<int> FillingQueue()
         {
             int minCustomers = 10;
             int maxCustomers = 20;
@@ -47,6 +46,5 @@ namespace CSLight
 
             return shopCustomers;
         }
-
     }
 }
