@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] array1 = { "6", "2", "1", "3", "5", "8" };
+            string[] array2 = { "3", "2", "1", "9", "4", "7" };
+
+            List<string> collectionValue = new List<string>();
+
+            AddingValue(array1, collectionValue);
+            AddingValue(array2, collectionValue);
+
+            collectionValue.Sort();
+
+            ShowValue(collectionValue);
+        }
+
+        static void AddingValue(string[] arrayTemp, List<string> collectionValue)
+        {
+            for (int i = 0; i < arrayTemp.Length; i++)
+            {
+                bool hasRepetition = collectionValue.Contains(arrayTemp[i]);
+                
+                if (hasRepetition == false)
+                {
+                    collectionValue.Add(arrayTemp[i]);
+                }
+            }
+        }
+
+        static void ShowValue(List<string> collectionValue)
+        {
+            foreach (string value in collectionValue)
+            {
+                Console.Write($"{value} ");
+            }
+        }
+    }
+}
