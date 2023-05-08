@@ -9,7 +9,7 @@ namespace CSLight
         {
             Queue<int> shopCustomers = new Queue<int>();
 
-            FillQueue(ref shopCustomers);
+            FillQueue(shopCustomers);
 
             WorkQueue(shopCustomers);
         }
@@ -32,7 +32,7 @@ namespace CSLight
             }
         }
 
-        static void FillQueue(ref Queue<int> shopCustomers)
+        static void FillQueue(Queue<int> shopCustomers)
         {
             int minCustomers = 10;
             int maxCustomers = 20;
