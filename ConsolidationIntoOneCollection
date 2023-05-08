@@ -12,21 +12,19 @@ namespace CSLight
 
             List<string> collectionValue = new List<string>();
 
-            AddingValue(array1, collectionValue);
-            AddingValue(array2, collectionValue);
+            AddValue(array1, collectionValue);
+            AddValue(array2, collectionValue);
 
             collectionValue.Sort();
 
             ShowValue(collectionValue);
         }
 
-        static void AddingValue(string[] arrayTemp, List<string> collectionValue)
+        static void AddValue(string[] arrayTemp, List<string> collectionValue)
         {
             for (int i = 0; i < arrayTemp.Length; i++)
             {
-                bool hasRepetition = collectionValue.Contains(arrayTemp[i]);
-                
-                if (hasRepetition == false)
+                if (collectionValue.Contains(arrayTemp[i]) == false)
                 {
                     collectionValue.Add(arrayTemp[i]);
                 }
