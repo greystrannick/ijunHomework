@@ -41,7 +41,7 @@ namespace CSLight
                         break;
 
                     case CommandDeleteDossier:
-                        DeleteDossier(userInput, dossiers);
+                        DeleteDossier(dossiers);
                         break;
 
                     case CommandExitDossier:
@@ -60,11 +60,19 @@ namespace CSLight
                 Console.Write("Введите ФИО: ");
                 string fullName = Console.ReadLine();
 
-                Console.Write("Введите должность: ");
-                string positions = Console.ReadLine();
+                if (dossiers.ContainsKey(fullName))
+                {
+                    Console.WriteLine("Такой сотрудник уже есть");
+                    Console.WriteLine("Для продолжения нажмите любую клавишу...");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.Write("Введите должность: ");
+                    string positions = Console.ReadLine();
 
-                dossiers.Add(fullName, positions);
-
+                    dossiers.Add(fullName, positions);
+                }
             }
 
             static void OutputDossiers(Dictionary<string, string> dossiers)
@@ -79,10 +87,10 @@ namespace CSLight
                 Console.ReadKey();
             }
 
-            static void DeleteDossier(string userInput, Dictionary<string, string> dossiers)
+            static void DeleteDossier(Dictionary<string, string> dossiers)
             {
                 Console.Write("Введите ФИО человека, досье которого надо удалить: ");
-                userInput = Console.ReadLine();
+                string userInput = Console.ReadLine();
 
                 if (dossiers.ContainsKey(userInput))
                 {
