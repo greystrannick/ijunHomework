@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            const string CommandSum = "sum";
+            const string CommandExit = "exit";
+
+            List<int> numbers = new List<int>(0);
+            string inputUser;
+            bool isOpen = true;
+
+            while (isOpen)
+            {
+                Console.SetCursorPosition(0, 0);
+                Console.Write($"Введите число для записи в массив, '{CommandSum}' для нахождения суммы, '{CommandExit}' для выхода.\n>");
+                Console.Write("            ");
+                Console.SetCursorPosition(1, 1);
+                inputUser = Console.ReadLine();
+
+                switch (inputUser)
+                {
+                    case CommandExit:
+                        isOpen = false;
+                        break;
+
+                    case CommandSum:
+                        calculateSum(numbers);
+                        break;
+
+                    default:
+                        AddNumber(inputUser, numbers);
+                        break;
+                }
+            }
+        }
+
+        static void calculateSum(List<int> numbers)
+        {
+            int sumList = 0;
+
+            foreach (var number in numbers)
+            {
+                sumList += number;
+            }
+
+            Console.SetCursorPosition(0, 2);
+            Console.WriteLine($"Сумма элементов массива: {sumList}");
+        }
+
+        static void AddNumber(string userInput, List<int> numbers)
+        {
+            if (int.TryParse(userInput, out int currentNumber))
+            {
+                numbers.Add(currentNumber);
+            }
+        }
+    }
+}
