@@ -1,0 +1,102 @@
+using System;
+using System.Collections.Generic;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            const string CommandAddDossier = "1";
+            const string CommandOutputDossiers = "2";
+            const string CommandDeleteDossier = "3";
+            const string CommandExitDossier = "4";
+
+            bool isRunProgramm = true;
+
+            string userInput;
+
+            Dictionary<string, string> dossiers = new Dictionary<string, string>();
+
+            while (isRunProgramm)
+            {
+                Console.Clear();
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("Выберите пункт меню для работы с досье работников:");
+                Console.WriteLine($"{CommandAddDossier} - добавить новую запись в досье.\n" +
+                    $"{CommandOutputDossiers} - вывести досье на всех работников.\n" +
+                    $"{CommandDeleteDossier} - удаление записи о работнике из досье.\n" +
+                    $"{CommandExitDossier} - выход из программы.\n");
+                Console.Write(">");
+                userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case CommandAddDossier:
+                        AddDossier(dossiers);
+                        break;
+
+                    case CommandOutputDossiers:
+                        OutputDossiers(dossiers);
+                        break;
+
+                    case CommandDeleteDossier:
+                        DeleteDossier(userInput, dossiers);
+                        break;
+
+                    case CommandExitDossier:
+                        isRunProgramm = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Такой команды нет.\nДля продолжения нажмите любую клавишу...");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+
+            static void AddDossier(Dictionary<string, string> dossiers)
+            {
+                Console.Write("Введите ФИО: ");
+                string fullName = Console.ReadLine();
+
+                Console.Write("Введите должность: ");
+                string positions = Console.ReadLine();
+
+                dossiers.Add(fullName, positions);
+
+            }
+
+            static void OutputDossiers(Dictionary<string, string> dossiers)
+            {
+                foreach (KeyValuePair<string, string> dossier in dossiers)
+                {
+                    Console.Write($"{dossier.Key} - {dossier.Value}");
+                    Console.WriteLine();
+                }
+
+                Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
+                Console.ReadKey();
+            }
+
+            static void DeleteDossier(string userInput, Dictionary<string, string> dossiers)
+            {
+                Console.Write("Введите ФИО человека, досье которого надо удалить: ");
+                userInput = Console.ReadLine();
+
+                if (dossiers.ContainsKey(userInput))
+                {
+                    dossiers.Remove(userInput);
+                    Console.WriteLine("Досье удалено");
+                }
+                else
+                {
+                    Console.WriteLine("Досье с таким ФИО не существует!");
+                }
+
+                Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
+                Console.ReadKey();
+            }
+        }
+    }
+}
