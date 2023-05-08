@@ -29,7 +29,7 @@ namespace CSLight
                         break;
 
                     case CommandSum:
-                        calculateSum(numbers);
+                        ShowSum(numbers);
                         break;
 
                     default:
@@ -39,11 +39,11 @@ namespace CSLight
             }
         }
 
-        static void calculateSum(List<int> numbers)
+        static void ShowSum(List<int> numbers)
         {
             int sumList = 0;
 
-            foreach (var number in numbers)
+            foreach (int number in numbers)
             {
                 sumList += number;
             }
