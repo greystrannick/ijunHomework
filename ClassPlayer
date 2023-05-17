@@ -1,0 +1,40 @@
+using System;
+
+namespace CSLight
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Player player = new Player("Тень", "Гном", 50, 1500, 1000, "Кузнец");
+
+            player.ShowInfo();
+        }
+
+        class Player
+        {
+            private string _characterName;
+            private string _characterRace;
+            private int _characterLevel;
+            private int _characterHealth;
+            private int _characterMana;
+            private string _characterSkill;
+
+            public Player(string name, string race, int level, int health, int mana, string skill)
+            {
+                _characterName = name;
+                _characterRace = race;
+                _characterLevel = level;
+                _characterHealth = health;
+                _characterMana = mana;
+                _characterSkill = skill;
+            }
+
+            public void ShowInfo()
+            {
+                Console.WriteLine($"Имя игрока: {_characterName}\nРаса игрока: {_characterRace}\nУровень игрока: {_characterLevel}\n" +
+                    $"Очки жизни: {_characterHealth}\nОчки маны: {_characterMana}\nОсновной навык: {_characterSkill}");
+            }
+        }
+    }
+}
