@@ -41,7 +41,6 @@ namespace CSLight
                         break;
 
                     case CommandShowPlayer:
-                        database.isPressKey = true;
                         database.ShowAllPlayers();
                         break;
 
@@ -74,12 +73,11 @@ namespace CSLight
     {
         private List<Player> _players = new List<Player>();
 
-        public bool isPressKey = false;
+        private int _lastId=0;
 
         public void AddPlayer()
         {
             int idPlayer;
-            bool isBan = false;
 
             Console.Write("Введите имя игрока:\n>");
             string namePlayer = Console.ReadLine();
@@ -87,19 +85,9 @@ namespace CSLight
             Console.Write("Введите уровень игрока:\n>");
             int levelPlayer = Convert.ToInt32(Console.ReadLine());
 
-            if (_players.Count == 0)
-            {
-                idPlayer = 1;
-            }
-            else
-            {
-                int lastId = _players[_players.Count - 1].Id;
-                int newId = lastId + 1;
+            idPlayer = ++_lastId;
 
-                idPlayer = newId;
-            }
-
-            _players.Add(new Player(idPlayer, namePlayer, levelPlayer, isBan));
+            _players.Add(new Player(idPlayer, namePlayer, levelPlayer));
             Console.WriteLine($"Игрок добавлен в базу данных.");
             Console.WriteLine("Для продолжения нажмите любую клавишу...");
             Console.ReadKey();
@@ -120,11 +108,8 @@ namespace CSLight
                 _players[i].ShowInfo();
             }
 
-            if (isPressKey)
-            {
-                Console.WriteLine("Для продолжения нажмите любую клавишу...");
-                Console.ReadKey();
-            }
+            Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
+            Console.ReadKey();
         }
 
         public void BanPlayer()
@@ -165,7 +150,6 @@ namespace CSLight
 
         private bool TryGetPlayer(out Player player)
         {
-            isPressKey = false;
             player = null;
 
             ShowAllPlayers();
@@ -191,19 +175,18 @@ namespace CSLight
 
     class Player
     {
+        public Player(int id, string name, int level)
+        {
+            Id = id;
+            Name = name;
+            Level = level;
+            IsBan = false; ;
+        }
 
         public int Id { get; private set; }
         public string Name { get; private set; }
         public int Level { get; private set; }
         public bool IsBan { get; private set; }
-
-        public Player(int id, string name, int level, bool isBan)
-        {
-            Id = id;
-            Name = name;
-            Level = level;
-            IsBan = isBan;
-        }
 
         public void Ban()
         {
