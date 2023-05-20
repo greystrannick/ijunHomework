@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+
+namespace CSLight
+{
+    class Program
+    {
+        //   масть - cardSuit
+        //   достоинство - cardValue
+        static void Main(string[] args)
+        {
+            const string CommandTakeCard = "1";
+            const string CommandShowCards = "2";
+            const string CommandExit = "3";
+
+            string userInput;
+
+            bool isWork = true;
+
+            while (isWork)
+            {
+                Console.Clear();
+                Console.WriteLine($"{CommandTakeCard} - взять карту.");
+                Console.WriteLine($"{CommandShowCards} - показать карты игрока.");
+                Console.WriteLine($"{CommandExit} - выйсти из программы.\n");
+                Console.Write("Введите команду:\n>");
+                userInput = Console.ReadLine();
+                switch (userInput)
+                {
+                    case CommandTakeCard:
+                        break;
+
+                    case CommandShowCards:
+                        break;
+
+                    case CommandExit:
+                        isWork = false;
+
+                        break;
+
+                    default:
+                        Console.WriteLine("\nВведена неверная команда.\nДля продолжения нажмите любую клавишу...");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
+    }
+    public enum CardSuit
+    {
+        пики,
+        крести,
+        черви,
+        буби
+    }
+
+    public enum CardValue
+    {
+        шестерка,
+        семерка,
+        восьмерка,
+        девятка,
+        десятка,
+        валет,
+        дама,
+        король,
+        туз
+    }
+}
