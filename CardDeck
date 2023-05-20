@@ -5,8 +5,6 @@ namespace CSLight
 {
     class Program
     {
-        //   масть - cardSuit
-        //   достоинство - cardValue
         static void Main(string[] args)
         {
             const string CommandTakeCard = "1";
@@ -16,7 +14,7 @@ namespace CSLight
             string userInput;
 
             bool isWork = true;
-
+                        
             while (isWork)
             {
                 Console.Clear();
@@ -35,7 +33,6 @@ namespace CSLight
 
                     case CommandExit:
                         isWork = false;
-
                         break;
 
                     default:
@@ -46,12 +43,50 @@ namespace CSLight
             }
         }
     }
+
+    public class Player
+    {
+        public Player()
+        {
+
+        }
+    }
+
+    public class Deck
+    {
+        private readonly List<Card> cards = new List<Card>();
+        
+        public Deck()
+        {
+            CreatDeck();
+        }
+
+        private void CreatDeck()
+        {
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 9; j++)
+                    cards.Add(new Card((CardSuit)i, (CardValue)j));
+        }
+    }
+
+    public class Card
+    {
+        public Card(CardSuit suit, CardValue value)
+        {
+            Suit = suit;
+            Value = value;
+        }
+
+        public CardSuit Suit { get; private set; }
+        public CardValue Value { get; private set; }
+    }
+        
     public enum CardSuit
     {
-        пики,
-        крести,
-        черви,
-        буби
+        пик,
+        крестей,
+        червей,
+        бубей
     }
 
     public enum CardValue
