@@ -7,6 +7,9 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
+            Deck deck = new Deck();
+            Player player = new Player();
+
             const string CommandTakeCard = "1";
             const string CommandShowCards = "2";
             const string CommandExit = "3";
@@ -14,7 +17,7 @@ namespace CSLight
             string userInput;
 
             bool isWork = true;
-                        
+
             while (isWork)
             {
                 Console.Clear();
@@ -26,9 +29,15 @@ namespace CSLight
                 switch (userInput)
                 {
                     case CommandTakeCard:
+                        Card card = deck.GiveAwayCard();
+                        player.AddCard(card);
                         break;
 
                     case CommandShowCards:
+                        Console.WriteLine("На руках у игрока:\n");
+                        player.ShowCards();
+                        Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
+                        Console.ReadKey();
                         break;
 
                     case CommandExit:
@@ -46,26 +55,67 @@ namespace CSLight
 
     public class Player
     {
-        public Player()
-        {
+        private List<Card> _cards = new List<Card>();
 
+        public void AddCard(Card card)
+        {
+            _cards.Add(card);
+        }
+
+        public void ShowCards()
+        {
+            for (int i = 0; i < _cards.Count; i++)
+            {
+                _cards[i].ShowStats();
+            }
         }
     }
 
     public class Deck
     {
-        private readonly List<Card> cards = new List<Card>();
-        
+        private List<Card> _cards;
+
         public Deck()
         {
             CreatDeck();
         }
 
+        public Card GiveAwayCard()
+        {
+            if (_cards.Count > 0)
+            {
+                Card card = _cards[0];
+                _cards.Remove(card);
+
+                return card;
+            }
+            else
+            {
+                return null;
+            }
+        }
         private void CreatDeck()
         {
-            for (int i = 0; i < 4; i++)
-                for (int j = 0; j < 9; j++)
-                    cards.Add(new Card((CardSuit)i, (CardValue)j));
+            int cardSuitCount = Enum.GetNames(typeof(CardSuit)).Length;
+            int cardValueCount = Enum.GetNames(typeof(CardValue)).Length;
+            _cards = new List<Card>(cardSuitCount * cardValueCount);
+
+            for (int i = 0; i < cardSuitCount; i++)
+                for (int j = 0; j < cardValueCount; j++)
+                    _cards.Add(new Card((CardSuit)i, (CardValue)j));
+
+            ShuffleCards();
+        }
+
+        private void ShuffleCards()
+        {
+            Random random = new Random();
+
+            for (int i = 0; i < _cards.Count; i++)
+            {
+                int index = random.Next(_cards.Count);
+                (_cards[i], _cards[index]) = (_cards[index], _cards[i]);
+            }
         }
     }
 
@@ -79,8 +129,13 @@ namespace CSLight
 
         public CardSuit Suit { get; private set; }
         public CardValue Value { get; private set; }
+
+        public void ShowStats()
+        {
+            Console.WriteLine($"{Value} {Suit}");
+        }
     }
-        
+
     public enum CardSuit
     {
         пик,
