@@ -73,7 +73,7 @@ namespace CSLight
     {
         private List<Player> _players = new List<Player>();
 
-        private int _lastId=0;
+        private int _lastId = 0;
 
         public void AddPlayer()
         {
@@ -83,14 +83,23 @@ namespace CSLight
             string namePlayer = Console.ReadLine();
 
             Console.Write("Введите уровень игрока:\n>");
-            int levelPlayer = Convert.ToInt32(Console.ReadLine());
+            string levelPlayer = Console.ReadLine();
 
-            idPlayer = ++_lastId;
+            if (int.TryParse(levelPlayer, out _))
+            {
+                idPlayer = ++_lastId;
 
-            _players.Add(new Player(idPlayer, namePlayer, levelPlayer));
-            Console.WriteLine($"Игрок добавлен в базу данных.");
-            Console.WriteLine("Для продолжения нажмите любую клавишу...");
-            Console.ReadKey();
+                _players.Add(new Player(idPlayer, namePlayer, Convert.ToInt32(levelPlayer)));
+                Console.WriteLine($"Игрок добавлен в базу данных.");
+                Console.WriteLine("Для продолжения нажмите любую клавишу...");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine("Не удалось распознать число!");
+                Console.WriteLine("Для продолжения нажмите любую клавишу...");
+                Console.ReadKey();
+            }
         }
 
         public void DeletePlayer()
