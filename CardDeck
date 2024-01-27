@@ -51,12 +51,12 @@ namespace CSLight
 
     public class Player
     {
-        private readonly Deck deck = new Deck();
+        private readonly Deck _deck = new Deck();
         private List<Card> _cards = new List<Card>();
 
         public void AddCard(Card card)
         {
-            if (deck.GiveAwayCard() != null)
+            if (_deck.GiveAwayCard() != null)
             {
                 _cards.Add(card);
             }
