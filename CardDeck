@@ -29,15 +29,11 @@ namespace CSLight
                 switch (userInput)
                 {
                     case CommandTakeCard:
-                        Card card = deck.GiveAwayCard();
-                        player.AddCard(card);
+                        player.AddCard(deck.GiveAwayCard());
                         break;
 
                     case CommandShowCards:
-                        Console.WriteLine("На руках у игрока:\n");
                         player.ShowCards();
-                        Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
-                        Console.ReadKey();
                         break;
 
                     case CommandExit:
@@ -64,10 +60,15 @@ namespace CSLight
 
         public void ShowCards()
         {
+            Console.WriteLine("На руках у игрока:\n");
+            
             for (int i = 0; i < _cards.Count; i++)
             {
                 _cards[i].ShowStats();
             }
+
+            Console.WriteLine("\nДля продолжения нажмите любую клавишу...");
+            Console.ReadKey();
         }
     }
 
@@ -78,6 +79,7 @@ namespace CSLight
         public Deck()
         {
             CreatDeck();
+            ShuffleCards();
         }
 
         public Card GiveAwayCard()
@@ -91,6 +93,8 @@ namespace CSLight
             }
             else
             {
+                Console.WriteLine("карты в колоде закончились");
+                Console.ReadKey();
                 return null;
             }
         }
@@ -103,8 +107,6 @@ namespace CSLight
             for (int i = 0; i < cardSuitCount; i++)
                 for (int j = 0; j < cardValueCount; j++)
                     _cards.Add(new Card((CardSuit)i, (CardValue)j));
-
-            ShuffleCards();
         }
 
         private void ShuffleCards()
@@ -138,22 +140,22 @@ namespace CSLight
 
     public enum CardSuit
     {
-        пик,
-        крестей,
-        червей,
-        бубей
+        spades,
+        clubs,
+        hearts,
+        diamonds
     }
 
     public enum CardValue
     {
-        шестерка,
-        семерка,
-        восьмерка,
-        девятка,
-        десятка,
-        валет,
-        дама,
-        король,
-        туз
+        six,
+        seven,
+        eight,
+        nine,
+        ten,
+        jack,
+        lady,
+        king,
+        ace
     }
 }
