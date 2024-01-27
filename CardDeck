@@ -51,11 +51,20 @@ namespace CSLight
 
     public class Player
     {
+        private readonly Deck deck = new Deck();
         private List<Card> _cards = new List<Card>();
 
         public void AddCard(Card card)
         {
-            _cards.Add(card);
+            if (deck.GiveAwayCard() != null)
+            {
+                _cards.Add(card);
+            }
+            else
+            {
+                Console.WriteLine("карты в колоде закончились");
+                Console.ReadKey();
+            }
         }
 
         public void ShowCards()
@@ -78,7 +87,7 @@ namespace CSLight
 
         public Deck()
         {
-            CreatDeck();
+            CreatCards();
             ShuffleCards();
         }
 
@@ -93,12 +102,11 @@ namespace CSLight
             }
             else
             {
-                Console.WriteLine("карты в колоде закончились");
-                Console.ReadKey();
                 return null;
-            }
+            }            
         }
-        private void CreatDeck()
+
+        private void CreatCards()
         {
             int cardSuitCount = Enum.GetNames(typeof(CardSuit)).Length;
             int cardValueCount = Enum.GetNames(typeof(CardValue)).Length;
@@ -140,22 +148,22 @@ namespace CSLight
 
     public enum CardSuit
     {
-        spades,
-        clubs,
-        hearts,
-        diamonds
+        Spades,
+        Clubs,
+        Hearts,
+        Diamonds
     }
 
     public enum CardValue
     {
-        six,
-        seven,
-        eight,
-        nine,
-        ten,
-        jack,
-        lady,
-        king,
-        ace
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Lady,
+        King,
+        Ace
     }
 }
