@@ -20,18 +20,17 @@ namespace IJunior_OOP_5
 
             Library library = new Library();
 
-
             while (IsWork)
             {
                 Console.SetCursorPosition(0, 0);
-                Console.WriteLine($"Команды работы с библиотекой: \n\n1.Добавить книгу: {AddBookCommand}." +
-                    $"\n2.Удалить книгу: {RemoveBookCommand}." +
-                    $"\n3.Показать всех книги: {ShowAllBooksCommand}" +
-                    $"\n4.Показ книг по названию: {ShowBooksTitleCommand}" +
-                    $"\n5.Показ книг по автору: {ShowBooksAuthorCommand}" +
-                    $"\n6.Показ книг по году выпуска: {ShowBooksYearCommand}" +
-                    $"\n7.Показ книг по жанру: {ShowBooksGenreCommand}" +
-                    $"\n8.Выход из репозитория: {ExitCommand}");
+                Console.WriteLine($"Команды работы с библиотекой: \n\nДобавить книгу: {AddBookCommand}." +
+                    $"\nУдалить книгу: {RemoveBookCommand}." +
+                    $"\nПоказать всех книги: {ShowAllBooksCommand}" +
+                    $"\nПоказ книг по названию: {ShowBooksTitleCommand}" +
+                    $"\nПоказ книг по автору: {ShowBooksAuthorCommand}" +
+                    $"\nПоказ книг по году выпуска: {ShowBooksYearCommand}" +
+                    $"\nПоказ книг по жанру: {ShowBooksGenreCommand}" +
+                    $"\n8Выход из репозитория: {ExitCommand}");
                 Console.Write("\nВведите команду:\n>");
                 string userInput = Console.ReadLine();
                 Console.Clear();
@@ -78,287 +77,282 @@ namespace IJunior_OOP_5
                 }
             }
         }
+    }
 
-        class Book
-        {
+    class Book
+    {
                         
-            public Book(int index, string title, string author, int yearOfWriting, string genre)
+        public Book(int index, string title, string author, int yearOfWriting, string genre)
+        {
+            Index = index;
+            Title = title;
+            Author = author;
+            YearOfWriting = yearOfWriting;
+            Genre = genre;
+        }
+
+        public int Index { get; set; }
+        public string Title { get; private set; }
+        public string Author { get; private set; }
+        public int YearOfWriting { get; private set; }
+        public string Genre { get; private set; }
+                
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Номер: {Index} Название книги: {Title}, автор книги: {Author}, год выпуска: {YearOfWriting}, жанр: {Genre}");
+        }
+    }
+
+    class Library
+    {
+        private int _currentIndex = 0;
+        private int _numberDifferences = 1;
+
+        private List<Book> _books = new List<Book>();
+
+        public void AddBook()
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("Введите название книги: ");
+            string title = Console.ReadLine();
+            Console.WriteLine("Введите автора книги: ");
+            string author = Console.ReadLine();
+            int yearOfWriting = ReadInt("Введите год выпуска книги: \n");
+            Console.WriteLine("Введите жанр книги: ");
+            string genre = Console.ReadLine();
+
+            _books.Add(new Book(_numberDifferences + _currentIndex++, title, author, yearOfWriting, genre));
+
+            Console.WriteLine($"\nДобавлена книга под номером {_currentIndex}: {title}  " +
+                $"\nАвтор книги: {author}.\nГод выпуска: {yearOfWriting}\nЖанр книги: {genre}");
+
+            StopToClear();
+        }
+
+        public void RemoveBook()
+        {
+            Console.SetCursorPosition(0, 0);
+
+            if (_books.Count == 0)
             {
-                Index = index;
-                Title = title;
-                Author = author;
-                YearOfWriting = yearOfWriting;
-                Genre = genre;
+                Console.WriteLine("\nРепозиторий пуст.");
+                StopToClear();
+                return;
             }
 
-            public int Index { get; private set; }
-            public string Title { get; private set; }
-            public string Author { get; private set; }
-            public int YearOfWriting { get; private set; }
-            public string Genre { get; private set; }
+            int indexToRemove = ReadInt("\nВведите номер книги, которую вы хотите удалить: ");
 
-            public void ReduceIndex()
+            int realIndex = indexToRemove - _numberDifferences;
+
+            if (realIndex >= 0 && realIndex < _books.Count)
             {
-                Index--;
+                _books.RemoveAt(realIndex);
+
+                for (int i = realIndex; i < _books.Count; i++)
+                {
+                    _books[i].Index = realIndex + i;
+
+                }
+
+                Console.WriteLine($"\nКнига под номером {indexToRemove} удалена.");
+                _currentIndex--;
+                StopToClear();
             }
-
-            public void ShowInfo()
+            else
             {
-                Console.WriteLine($"Номер: {Index} Название книги: {Title}, автор книги: {Author}, год выпуска: {YearOfWriting}, жанр: {Genre}");
+                Console.WriteLine("\nНекорректный номер книги.");
+
+                StopToClear();
             }
         }
 
-        class Library
+        public void ShowAllBooks()
         {
-            private int _currentIndex = 0;
-            private int _numberDifferences = 1;
+            Console.SetCursorPosition(0, 0);
 
-            private List<Book> _books = new List<Book>();
-
-            public void AddBook()
+            if (_books.Count <= 0)
             {
-                Console.SetCursorPosition(0, 0);
-                Console.WriteLine("Введите название книги: ");
-                string title = Console.ReadLine();
-                Console.WriteLine("Введите автора книги: ");
-                string author = Console.ReadLine();
-                int yearOfWriting = ReadInt("Введите год выпуска книги: \n");
-                Console.WriteLine("Введите жанр книги: ");
-                string genre = Console.ReadLine();
-
-                _books.Add(new Book(_numberDifferences + _currentIndex++, title, author, yearOfWriting, genre));
-
-                Console.WriteLine($"\nДобавлена книга под номером {_currentIndex}: {title}  " +
-                    $"\nАвтор книги: {author}.\nГод выпуска: {yearOfWriting}\nЖанр книги: {genre}");
+                Console.WriteLine("\nВ репозитории пока нет книг");
 
                 StopToClear();
-
             }
-
-            public void RemoveBook()
+            else
             {
-                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("\nВ репозитории находятся книги: ");
 
-                if (_books.Count == 0)
+                foreach (Book book in _books)
                 {
-                    Console.WriteLine("\nРепозиторий пуст.");
-                    StopToClear();
-                    return;
+                    book.ShowInfo();
                 }
 
-                int indexToRemove = ReadInt("\nВведите номер книги, которую вы хотите удалить: ");
-
-                int realIndex = indexToRemove - _numberDifferences;
-
-                if (realIndex >= 0 && realIndex < _books.Count)
-                {
-                    _books.RemoveAt(realIndex);
-
-                    for (int i = realIndex; i < _books.Count; i++)
-                    {
-                        _books[i].ReduceIndex();
-                    }
-
-                    Console.WriteLine($"\nКнига под номером {indexToRemove} удалена.");
-                    _currentIndex--;
-                    StopToClear();
-                }
-                else
-                {
-                    Console.WriteLine("\nНекорректный номер книги.");
-
-                    StopToClear();
-                }
+                StopToClear();
             }
-
-            public void ShowAllBooks()
-            {
-                Console.SetCursorPosition(0, 0);
-
-                if (_books.Count <= 0)
-                {
-                    Console.WriteLine("\nВ репозитории пока нет книг");
-
-                    StopToClear();
-                }
-                else
-                {
-                    Console.WriteLine("\nВ репозитории находятся книги: ");
-
-                    foreach (Book book in _books)
-                    {
-                        book.ShowInfo();
-                    }
-
-                    StopToClear();
-                }
                 
+        }
+
+        private void ShowBooks(List<Book> books)
+        {
+            Console.SetCursorPosition(0, 0);
+
+            if (books.Count <= 0)
+            {
+                Console.WriteLine("\nПо Вашему запросу в репозитории книг нет!");
+            }
+            else
+            {
+                Console.WriteLine($"\nВ репозитории находятся книги: {books.Count}");
+
+                foreach (Book book in books)
+                {
+                    book.ShowInfo();
+                }
             }
 
-            private void ShowBooks(List<Book> books)
+            StopToClear();
+        }
+
+        public void SearchBookTitle()
+        {
+            Console.SetCursorPosition(0, 0);
+
+            if (_books.Count <= 0)
             {
-                Console.SetCursorPosition(0, 0);
-
-                if (books.Count <= 0)
-                {
-                    Console.WriteLine("\nПо Вашему запросу в репозитории книг нет!");
-                }
-                else
-                {
-                    Console.WriteLine($"\nВ репозитории находятся книги: {books.Count}");
-
-                    foreach (Book book in books)
-                    {
-                        book.ShowInfo();
-                    }
-                }
+                Console.WriteLine("\nВ репозитории пока нет книг");
 
                 StopToClear();
             }
-
-            public void SearchBookTitle()
+            else
             {
-                Console.SetCursorPosition(0, 0);
-
-                if (_books.Count <= 0)
-                {
-                    Console.WriteLine("\nВ репозитории пока нет книг");
-
-                    StopToClear();
-                }
-                else
-                {
-                    string userInput = InputText("\nВведите название книги: ");
+                string userInput = InputText("\nВведите название книги: ");
                    
-                    List<Book> searchBookTitle = new List<Book>();
+                List<Book> searchBookTitle = new List<Book>();
 
-                    foreach (Book book in _books)
+                foreach (Book book in _books)
+                {
+                    if (book.Title.Contains(userInput, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (book.Title.Contains(userInput, StringComparison.OrdinalIgnoreCase))
-                        {
-                            searchBookTitle.Add(book);
-                        }
+                        searchBookTitle.Add(book);
                     }
-
-                    ShowBooks(searchBookTitle);
                 }
+
+                ShowBooks(searchBookTitle);
+            }
                 
-            }
+        }
 
-            public void SearchBookAuthor()
+        public void SearchBookAuthor()
+        {
+            Console.SetCursorPosition(0, 0);
+
+            if (_books.Count <= 0)
             {
-                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("В репозитории пока нет книг");
 
-                if (_books.Count <= 0)
-                {
-                    Console.WriteLine("В репозитории пока нет книг");
-
-                    StopToClear();
-                }
-                else
-                {
-                    string userInput = InputText("\nВведите автора книги: ");
+                StopToClear();
+            }
+            else
+            {
+                string userInput = InputText("\nВведите автора книги: ");
                     
-                    List<Book> searchBookAuthor = new List<Book>();
+                List<Book> searchBookAuthor = new List<Book>();
 
-                    foreach (Book book in _books)
+                foreach (Book book in _books)
+                {
+                    if (book.Author.Contains(userInput, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (book.Author.Contains(userInput, StringComparison.OrdinalIgnoreCase))
-                        {
-                            searchBookAuthor.Add(book);
-                        }
+                        searchBookAuthor.Add(book);
                     }
-
-                    ShowBooks(searchBookAuthor);
                 }
+
+                ShowBooks(searchBookAuthor);
             }
+        }
 
-            public void SearchBookYear()
+        public void SearchBookYear()
+        {
+            Console.SetCursorPosition(0, 0);
+
+            if (_books.Count <= 0)
             {
-                Console.SetCursorPosition(0, 0);
-
-                if (_books.Count <= 0)
-                {
-                    Console.WriteLine("\nВ репозитории пока нет книг");
-                }
-                else
-                {
-                    string userInput = InputText("Введите год выпуска книги: ");
+                Console.WriteLine("\nВ репозитории пока нет книг");
+            }
+            else
+            {
+                string userInput = InputText("Введите год выпуска книги: ");
                     
-                    List<Book> searchBookYear = new List<Book>();
+                List<Book> searchBookYear = new List<Book>();
 
-                    foreach (Book book in _books)
+                foreach (Book book in _books)
+                {
+                    if (userInput == book.YearOfWriting.ToString())
                     {
-                        if (userInput == book.YearOfWriting.ToString())
-                        {
                             searchBookYear.Add(book);
-                        }
                     }
-
-                    ShowBooks(searchBookYear);
                 }
+
+                ShowBooks(searchBookYear);
             }
+        }
 
-            public void SearchBookGenre()
+        public void SearchBookGenre()
+        {
+            Console.SetCursorPosition(0, 0);
+
+            if (_books.Count <= 0)
             {
-                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("\nВ репозитории пока нет книг");
+            }
+            else
+            {
+                string userInput = InputText("\nВведите жанр книги: ");
 
-                if (_books.Count <= 0)
+                List<Book> searchBookGenre = new List<Book>();
+
+                foreach (Book book in _books)
                 {
-                    Console.WriteLine("\nВ репозитории пока нет книг");
-                }
-                else
-                {
-                    string userInput = InputText("\nВведите жанр книги: ");
-
-                    List<Book> searchBookGenre = new List<Book>();
-
-                    foreach (Book book in _books)
+                    if (book.Genre.Contains(userInput, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (book.Genre.Contains(userInput, StringComparison.OrdinalIgnoreCase))
-                        {
-                            searchBookGenre.Add(book);
-                        }
+                        searchBookGenre.Add(book);
                     }
-
-                    ShowBooks(searchBookGenre);
                 }
+
+                ShowBooks(searchBookGenre);
             }
+        }
                         
-            private int ReadInt(string message)
+        private int ReadInt(string message)
+        {
+            int number;
+            Console.Write(message);
+
+            while (!int.TryParse(Console.ReadLine(), out number))
             {
-                int number;
+                Console.WriteLine("\nОшибка ввода! Введите число!");
                 Console.Write(message);
-
-                while (!int.TryParse(Console.ReadLine(), out number))
-                {
-                    Console.WriteLine("\nОшибка ввода! Введите число!");
-                    Console.Write(message);
-                }
-
-                return number;
             }
 
-            public void StopToClear()
-            {
-                Console.WriteLine("\nДля продолжениия нажмите кнопку...");
-                Console.ReadKey();
-                Console.Clear();
-            }
+            return number;
+        }
 
-            private string InputText(string message)
-            {
-                Console.Write(message);
-                string userText = Console.ReadLine();
+        public void StopToClear()
+        {
+            Console.WriteLine("\nДля продолжениия нажмите кнопку...");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        private string InputText(string message)
+        {
+            Console.Write(message);
+            string userText = Console.ReadLine();
                
-                if (String.IsNullOrEmpty(userText))
-                {
-                    userText = " ";
-                    return userText;
-                }
-
+            if (String.IsNullOrEmpty(userText))
+            {
+                userText = " ";
                 return userText;
             }
+
+            return userText;
         }
     }
 }
