@@ -16,11 +16,11 @@ namespace IJunior_OOP_5
             const string ShowBooksGenreCommand = "7";
             const string ExitCommand = "8";
 
-            bool IsWork = true;
+            bool isWork = true;
 
             Library library = new Library();
 
-            while (IsWork)
+            while (isWork)
             {
                 Console.SetCursorPosition(0, 0);
                 Console.WriteLine($"Команды работы с библиотекой: \n\nДобавить книгу: {AddBookCommand}." +
@@ -66,7 +66,7 @@ namespace IJunior_OOP_5
                         break;
 
                     case ExitCommand:
-                        IsWork = false;
+                        isWork = false;
                         Console.WriteLine("\nДля продолжениия нажмите кнопку...");
                         break;
 
