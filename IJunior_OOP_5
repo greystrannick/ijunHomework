@@ -20,6 +20,7 @@ namespace IJunior_OOP_5
 
             Library library = new Library();
 
+
             while (isWork)
             {
                 Console.SetCursorPosition(0, 0);
@@ -78,7 +79,6 @@ namespace IJunior_OOP_5
             }
         }
     }
-
     class Book
     {
                         
@@ -91,7 +91,7 @@ namespace IJunior_OOP_5
             Genre = genre;
         }
 
-        public int Index { get; set; }
+        public int Index { get; private set; }
         public string Title { get; private set; }
         public string Author { get; private set; }
         public int YearOfWriting { get; private set; }
@@ -106,7 +106,7 @@ namespace IJunior_OOP_5
     class Library
     {
         private int _currentIndex = 0;
-        private int _numberDifferences = 1;
+        private readonly int _numberDifferences = 1;
 
         private List<Book> _books = new List<Book>();
 
@@ -123,10 +123,11 @@ namespace IJunior_OOP_5
 
             _books.Add(new Book(_numberDifferences + _currentIndex++, title, author, yearOfWriting, genre));
 
-            Console.WriteLine($"\nДобавлена книга под номером {_currentIndex}: {title}  " +
+            Console.WriteLine($"\nДобавлена книга под номером {_currentIndex}:\nНазвание: {title}  " +
                 $"\nАвтор книги: {author}.\nГод выпуска: {yearOfWriting}\nЖанр книги: {genre}");
 
-            StopToClear();
+            WaitKeypress();
+
         }
 
         public void RemoveBook()
@@ -136,7 +137,7 @@ namespace IJunior_OOP_5
             if (_books.Count == 0)
             {
                 Console.WriteLine("\nРепозиторий пуст.");
-                StopToClear();
+                WaitKeypress();
                 return;
             }
 
@@ -146,23 +147,16 @@ namespace IJunior_OOP_5
 
             if (realIndex >= 0 && realIndex < _books.Count)
             {
-                _books.RemoveAt(realIndex);
-
-                for (int i = realIndex; i < _books.Count; i++)
-                {
-                    _books[i].Index = realIndex + i;
-
-                }
-
+                _books.RemoveAt(realIndex);             
                 Console.WriteLine($"\nКнига под номером {indexToRemove} удалена.");
-                _currentIndex--;
-                StopToClear();
+
+                WaitKeypress();
             }
             else
             {
                 Console.WriteLine("\nНекорректный номер книги.");
 
-                StopToClear();
+                WaitKeypress();
             }
         }
 
@@ -172,9 +166,9 @@ namespace IJunior_OOP_5
 
             if (_books.Count <= 0)
             {
-                Console.WriteLine("\nВ репозитории пока нет книг");
+                Console.WriteLine($"\nВ репозитории пока нет книг");
 
-                StopToClear();
+                WaitKeypress();
             }
             else
             {
@@ -185,7 +179,7 @@ namespace IJunior_OOP_5
                     book.ShowInfo();
                 }
 
-                StopToClear();
+                WaitKeypress();
             }
                 
         }
@@ -208,7 +202,7 @@ namespace IJunior_OOP_5
                 }
             }
 
-            StopToClear();
+            WaitKeypress();
         }
 
         public void SearchBookTitle()
@@ -219,7 +213,7 @@ namespace IJunior_OOP_5
             {
                 Console.WriteLine("\nВ репозитории пока нет книг");
 
-                StopToClear();
+                WaitKeypress();
             }
             else
             {
@@ -237,7 +231,6 @@ namespace IJunior_OOP_5
 
                 ShowBooks(searchBookTitle);
             }
-                
         }
 
         public void SearchBookAuthor()
@@ -248,7 +241,7 @@ namespace IJunior_OOP_5
             {
                 Console.WriteLine("В репозитории пока нет книг");
 
-                StopToClear();
+                WaitKeypress();
             }
             else
             {
@@ -320,7 +313,7 @@ namespace IJunior_OOP_5
             }
         }
                         
-        private int ReadInt(string message)
+        private static int ReadInt(string message)
         {
             int number;
             Console.Write(message);
@@ -334,14 +327,14 @@ namespace IJunior_OOP_5
             return number;
         }
 
-        public void StopToClear()
+        public static void WaitKeypress()
         {
             Console.WriteLine("\nДля продолжениия нажмите кнопку...");
             Console.ReadKey();
             Console.Clear();
         }
 
-        private string InputText(string message)
+        private static string InputText(string message)
         {
             Console.Write(message);
             string userText = Console.ReadLine();
@@ -354,5 +347,5 @@ namespace IJunior_OOP_5
 
             return userText;
         }
-    }
+    }   
 }
