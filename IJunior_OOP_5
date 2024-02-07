@@ -160,33 +160,10 @@ namespace IJunior_OOP_5
             }
         }
 
-        public void ShowAllBooks()
+        private void ShowBooks(List<Book> books, string message)
         {
             Console.SetCursorPosition(0, 0);
-
-            if (_books.Count <= 0)
-            {
-                Console.WriteLine($"\nВ репозитории пока нет книг");
-
-                WaitKeypress();
-            }
-            else
-            {
-                Console.WriteLine("\nВ репозитории находятся книги: ");
-
-                foreach (Book book in _books)
-                {
-                    book.ShowInfo();
-                }
-
-                WaitKeypress();
-            }
-                
-        }
-
-        private void ShowBooks(List<Book> books)
-        {
-            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("\n" + message);
 
             if (books.Count <= 0)
             {
@@ -203,6 +180,11 @@ namespace IJunior_OOP_5
             }
 
             WaitKeypress();
+        }
+
+        public void ShowAllBooks()
+        {
+            ShowBooks(_books, "Список всех книг в библиотеке: ");
         }
 
         public void SearchBookTitle()
@@ -229,7 +211,7 @@ namespace IJunior_OOP_5
                     }
                 }
 
-                ShowBooks(searchBookTitle);
+                ShowBooks(searchBookTitle, "Список найденных книг по названию: ");
             }
         }
 
@@ -257,7 +239,7 @@ namespace IJunior_OOP_5
                     }
                 }
 
-                ShowBooks(searchBookAuthor);
+                ShowBooks(searchBookAuthor, "Список найденных книг по автору: ");
             }
         }
 
@@ -283,7 +265,7 @@ namespace IJunior_OOP_5
                     }
                 }
 
-                ShowBooks(searchBookYear);
+                ShowBooks(searchBookYear, "Список найденных книг по году выпуска: ");
             }
         }
 
@@ -309,7 +291,7 @@ namespace IJunior_OOP_5
                     }
                 }
 
-                ShowBooks(searchBookGenre);
+                ShowBooks(searchBookGenre, "Список найденных книг по жанру: ");
             }
         }
                         
