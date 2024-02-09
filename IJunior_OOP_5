@@ -20,7 +20,6 @@ namespace IJunior_OOP_5
 
             Library library = new Library();
 
-
             while (isWork)
             {
                 Console.SetCursorPosition(0, 0);
@@ -81,7 +80,7 @@ namespace IJunior_OOP_5
     }
     class Book
     {
-                        
+
         public Book(int index, string title, string author, int yearOfWriting, string genre)
         {
             Index = index;
@@ -96,7 +95,7 @@ namespace IJunior_OOP_5
         public string Author { get; private set; }
         public int YearOfWriting { get; private set; }
         public string Genre { get; private set; }
-                
+
         public void ShowInfo()
         {
             Console.WriteLine($"Номер: {Index} Название книги: {Title}, автор книги: {Author}, год выпуска: {YearOfWriting}, жанр: {Genre}");
@@ -105,13 +104,14 @@ namespace IJunior_OOP_5
 
     class Library
     {
-        private int _currentIndex = 0;
-        private readonly int _numberDifferences = 1;
-
         private List<Book> _books = new List<Book>();
+
+        private readonly int _numberDifferences = 1;
 
         public void AddBook()
         {
+            int _currentIndex = 0;
+
             Console.SetCursorPosition(0, 0);
             Console.WriteLine("Введите название книги: ");
             string title = Console.ReadLine();
@@ -147,7 +147,7 @@ namespace IJunior_OOP_5
 
             if (realIndex >= 0 && realIndex < _books.Count)
             {
-                _books.RemoveAt(realIndex);             
+                _books.RemoveAt(realIndex);
                 Console.WriteLine($"\nКнига под номером {indexToRemove} удалена.");
 
                 WaitKeypress();
@@ -158,33 +158,6 @@ namespace IJunior_OOP_5
 
                 WaitKeypress();
             }
-        }
-
-        private void ShowBooks(List<Book> books, string message)
-        {
-            Console.SetCursorPosition(0, 0);
-            Console.WriteLine("\n" + message);
-
-            if (books.Count <= 0)
-            {
-                Console.WriteLine("\nПо Вашему запросу в репозитории книг нет!");
-            }
-            else
-            {
-                Console.WriteLine($"\nВ репозитории находятся книги: {books.Count}");
-
-                foreach (Book book in books)
-                {
-                    book.ShowInfo();
-                }
-            }
-
-            WaitKeypress();
-        }
-
-        public void ShowAllBooks()
-        {
-            ShowBooks(_books, "Список всех книг в библиотеке: ");
         }
 
         public void SearchBookTitle()
@@ -200,7 +173,7 @@ namespace IJunior_OOP_5
             else
             {
                 string userInput = InputText("\nВведите название книги: ");
-                   
+
                 List<Book> searchBookTitle = new List<Book>();
 
                 foreach (Book book in _books)
@@ -228,7 +201,7 @@ namespace IJunior_OOP_5
             else
             {
                 string userInput = InputText("\nВведите автора книги: ");
-                    
+
                 List<Book> searchBookAuthor = new List<Book>();
 
                 foreach (Book book in _books)
@@ -254,14 +227,14 @@ namespace IJunior_OOP_5
             else
             {
                 string userInput = InputText("Введите год выпуска книги: ");
-                    
+
                 List<Book> searchBookYear = new List<Book>();
 
                 foreach (Book book in _books)
                 {
                     if (userInput == book.YearOfWriting.ToString())
                     {
-                            searchBookYear.Add(book);
+                        searchBookYear.Add(book);
                     }
                 }
 
@@ -294,13 +267,18 @@ namespace IJunior_OOP_5
                 ShowBooks(searchBookGenre, "Список найденных книг по жанру: ");
             }
         }
-                        
+
+        public void ShowAllBooks()
+        {
+            ShowBooks(_books, "Список всех книг в библиотеке: ");
+        }
+
         private static int ReadInt(string message)
         {
             int number;
             Console.Write(message);
 
-            while (!int.TryParse(Console.ReadLine(), out number))
+            while (int.TryParse(Console.ReadLine(), out number) == false)
             {
                 Console.WriteLine("\nОшибка ввода! Введите число!");
                 Console.Write(message);
@@ -309,7 +287,7 @@ namespace IJunior_OOP_5
             return number;
         }
 
-        public static void WaitKeypress()
+        private static void WaitKeypress()
         {
             Console.WriteLine("\nДля продолжениия нажмите кнопку...");
             Console.ReadKey();
@@ -320,7 +298,7 @@ namespace IJunior_OOP_5
         {
             Console.Write(message);
             string userText = Console.ReadLine();
-               
+
             if (String.IsNullOrEmpty(userText))
             {
                 userText = " ";
@@ -329,5 +307,27 @@ namespace IJunior_OOP_5
 
             return userText;
         }
-    }   
+
+        private void ShowBooks(List<Book> books, string message)
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("\n" + message);
+
+            if (books.Count <= 0)
+            {
+                Console.WriteLine("\nПо Вашему запросу в репозитории книг нет!");
+            }
+            else
+            {
+                Console.WriteLine($"\nВ репозитории находятся книги: {books.Count}");
+
+                foreach (Book book in books)
+                {
+                    book.ShowInfo();
+                }
+            }
+
+            WaitKeypress();
+        }
+    }
 }
