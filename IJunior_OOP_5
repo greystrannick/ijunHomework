@@ -20,6 +20,7 @@ namespace IJunior_OOP_5
 
             Library library = new Library();
 
+
             while (isWork)
             {
                 Console.SetCursorPosition(0, 0);
@@ -78,6 +79,7 @@ namespace IJunior_OOP_5
             }
         }
     }
+
     class Book
     {
 
@@ -273,41 +275,6 @@ namespace IJunior_OOP_5
             ShowBooks(_books, "Список всех книг в библиотеке: ");
         }
 
-        private static int ReadInt(string message)
-        {
-            int number;
-            Console.Write(message);
-
-            while (int.TryParse(Console.ReadLine(), out number) == false)
-            {
-                Console.WriteLine("\nОшибка ввода! Введите число!");
-                Console.Write(message);
-            }
-
-            return number;
-        }
-
-        private static void WaitKeypress()
-        {
-            Console.WriteLine("\nДля продолжениия нажмите кнопку...");
-            Console.ReadKey();
-            Console.Clear();
-        }
-
-        private static string InputText(string message)
-        {
-            Console.Write(message);
-            string userText = Console.ReadLine();
-
-            if (String.IsNullOrEmpty(userText))
-            {
-                userText = " ";
-                return userText;
-            }
-
-            return userText;
-        }
-
         private void ShowBooks(List<Book> books, string message)
         {
             Console.SetCursorPosition(0, 0);
@@ -328,6 +295,41 @@ namespace IJunior_OOP_5
             }
 
             WaitKeypress();
+        }
+
+        private int ReadInt(string message)
+        {
+            int number;
+            Console.Write(message);
+
+            while (int.TryParse(Console.ReadLine(), out number) == false)
+            {
+                Console.WriteLine("\nОшибка ввода! Введите число!");
+                Console.Write(message);
+            }
+
+            return number;
+        }
+
+        private void WaitKeypress()
+        {
+            Console.WriteLine("\nДля продолжениия нажмите кнопку...");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        private string InputText(string message)
+        {
+            Console.Write(message);
+            string userText = Console.ReadLine();
+
+            if (String.IsNullOrEmpty(userText))
+            {
+                userText = " ";
+                return userText;
+            }
+
+            return userText;
         }
     }
 }
