@@ -1,0 +1,267 @@
+using System;
+using System.Collections.Generic;
+
+namespace IJunior_OOP_6
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            const string ShowAllProductsCommand = "1";
+            const string BuyProductCommand = "2";
+            const string ShowBuyerProductCommand = "3";
+            const string ExitShopCommand = "4";
+
+            bool isWork = true;
+
+            Shop shop = new Shop();
+            Buyer buyer = new Buyer(5000);
+            Salesman salesman = new Salesman(10000);
+
+            while (isWork)
+            {
+                ShowMenu();
+                Console.SetCursorPosition(0, 2);
+                Console.Write("Кол-во денег у продавца:");
+                salesman.ShowMoney();
+
+                Console.SetCursorPosition(35, 2);
+                Console.Write("Кол-во денег у покупателя:");
+                buyer.ShowMoney();
+
+                Console.SetCursorPosition(0, 9);
+                Console.Write("Введите команду:\n>");
+                Console.Write("   ");
+                Console.SetCursorPosition(1, 10);
+                string userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case ShowAllProductsCommand:
+                        shop.ShowProductList();
+                        break;
+
+                    case BuyProductCommand:
+                        shop.PurchaseGoods(buyer, salesman);
+                        break;
+
+                    case ShowBuyerProductCommand:
+                        Console.WriteLine("В вашей корзине:");
+                        buyer.ShowProductBuye();
+                        break;
+
+                    case ExitShopCommand:
+                        Console.WriteLine("До свиданья, спасибо за покупки!");
+                        isWork = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Такой команды нет, нажмите любую клавишу для продолжения...");
+                        Console.ReadKey();
+                        break;
+                }
+
+                Console.WriteLine("Нажмите любую клавишу для продолжения...");
+                Console.ReadKey();
+            }
+        }
+
+        static void ShowMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Магазин товаров 'НАЙДЕТСЯ ВСЁ!'\n");
+            Console.WriteLine("\n\nМеню работы с магазином:");
+            Console.WriteLine("1 - Показать весь ассортимент товаров.");
+            Console.WriteLine("2 - Купить выбранный товар.");
+            Console.WriteLine("3 - Посмотреть список купленных товаров.");
+            Console.WriteLine("4 - Выход.\n");
+        }
+    }
+
+    class Shop : Produce
+    {
+        private  List<Produce> _produce = new List<Produce>();
+
+        public Shop()
+        {
+            _produce.Add(new Produce(new Product("Хлеб", 20), 10));
+            _produce.Add(new Produce(new Product("Батон", 30), 10));
+            _produce.Add(new Produce(new Product("Пила", 100), 5));
+            _produce.Add(new Produce(new Product("Зелье", 50), 10));
+            _produce.Add(new Produce(new Product("Меч", 500), 2));
+            _produce.Add(new Produce(new Product("Шлем", 300), 4));
+            _produce.Add(new Produce(new Product("Наручни", 250), 2));
+            _produce.Add(new Produce(new Product("Сапоги", 200), 4));
+            _produce.Add(new Produce(new Product("Кольчуга", 1000), 2));
+        }
+      
+        public void PurchaseGoods(Buyer buyer, Salesman salesman)
+        {
+            ShowProductList();
+
+            Console.SetCursorPosition(0, 11);
+            Console.Write("Введите номер покупаемого товара:\n>");
+
+            int inputGoods = ValidateInt();
+
+            if (inputGoods > 0 && inputGoods <= _produce.Count)
+            {
+                Console.SetCursorPosition(0, 13);
+                Console.Write("  Введите количество покупаемого товара:\n>");
+
+                int inputQuantity = ValidateInt();
+
+                if (inputQuantity <= _produce[inputGoods - 1].Quantity)
+                {
+                    _produce[inputGoods - 1].Quantity -= inputQuantity;
+                    buyer.Buy(_produce[inputGoods - 1].Product.Price, inputQuantity);
+                    salesman.Buy(_produce[inputGoods - 1].Product.Price, inputQuantity);
+                    buyer.PutBag(_produce[inputGoods-1].Product.Name, _produce[inputGoods - 1].Product.Price, inputQuantity);
+
+                    if (_produce[inputGoods - 1].Quantity == 0) 
+                    {
+                        _produce.RemoveAt(inputGoods - 1);
+                    }
+
+                    ShowProductList();
+                    Console.WriteLine("Спасибо, пиятно иметь дело с хорошим покупателем!!!");
+                }
+                else
+                {
+                    Console.SetCursorPosition(1, 26);
+                    Console.WriteLine("Такого количества товара нет!");
+                }
+            }
+            else
+            {
+                Console.SetCursorPosition(1, 26);
+                Console.WriteLine("Такого товара нет!");
+            }
+        }
+
+        public void ShowProductList()
+        {
+            if (_produce.Count > 0)
+            {
+                Console.SetCursorPosition(1, 14);
+                Console.WriteLine("\nТовары в наличии: ");
+                int index = 0;
+
+                foreach (Produce produce in _produce)
+                {
+                    index++;
+                    Console.SetCursorPosition(1, 15 + index);
+                    Console.Write($"{index}.{produce.Product.Name}");
+                    Console.SetCursorPosition(18, 15 + index);
+                    Console.Write($"В наличии: {produce.Quantity} шт.");
+                    Console.SetCursorPosition(40, 15 + index);
+                    Console.Write($"Цена: {produce.Product.Price}\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nТоваров нет!");
+            }
+        }
+
+        private static int ValidateInt()
+        {
+            int result;
+
+            while (int.TryParse(Console.ReadLine(), out result) == false)
+            {
+                Console.WriteLine("Необходимо ввести целое число.");
+            }
+
+            return result;
+        }
+    }
+
+    class Person
+    {
+        public Person(int money)
+        {
+            Money = money;
+        }
+
+        public int Money { get; set; }
+
+        public void ShowMoney()
+        {
+            Console.WriteLine(Money);
+        }
+    }
+
+    class Salesman : Person
+    {
+        public Salesman(int money) : base(money) {}
+
+        public void Buy(int price, int quantity)
+        {
+            Money += price * quantity;
+        }
+    }
+
+    class Buyer : Person
+    {
+        private List<Produce> _bag = new List<Produce>();
+        public Buyer(int money) : base(money) { }
+
+        public void Buy(int price, int quantity)
+        {
+            Money -= price * quantity;
+        }
+
+        public void PutBag(string name, int price, int quantity)
+        {
+            _bag.Add(new Produce(new Product(name, price), quantity));
+        }
+
+        public void ShowProductBuye()
+        {
+            if (_bag.Count > 0)
+            {
+                int index = 0;
+
+                foreach (Produce bag in _bag)
+                {
+                    index++;
+                    Console.SetCursorPosition(1, 12 + index);
+                    Console.Write($"{index}.{bag.Product.Name}");
+                    Console.SetCursorPosition(18, 12 + index);
+                    Console.Write($"В наличии: {bag.Quantity} шт.");
+                    Console.SetCursorPosition(40, 12 + index);
+                    Console.Write($"Цена: {bag.Product.Price}\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nТоваров нет!");
+            }
+        }
+    }
+
+    class Product
+    {
+        public Product(string name, int price)
+        {
+            Name = name;
+            Price = price;
+        }
+
+        public string Name { get; private set; }
+        public int Price { get; private set; }
+    }
+
+    class Produce
+    {
+        public Produce(Product product, int quantity)
+        {
+            Product = product;
+            Quantity = quantity;
+        }
+
+        public Product Product { get; private set; }
+        public int Quantity { get; set; }
+    }
+}
