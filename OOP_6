@@ -7,6 +7,29 @@ namespace IJunior_OOP_6
     {
         static void Main(string[] args)
         {
+            Shop shop = new Shop();
+            shop.WorkShop();
+        }
+    }
+
+    class Tools
+    {
+        public static int ValidateInt()
+        {
+            int result;
+
+            while (int.TryParse(Console.ReadLine(), out result) == false)
+            {
+                Console.WriteLine("Необходимо ввести целое число.");
+            }
+
+            return result;
+        }
+    }
+    class Shop
+    {
+        public void WorkShop()
+        {
             const string ShowAllProductsCommand = "1";
             const string BuyProductCommand = "2";
             const string ShowBuyerProductCommand = "3";
@@ -14,13 +37,20 @@ namespace IJunior_OOP_6
 
             bool isWork = true;
 
-            Shop shop = new Shop();
             Buyer buyer = new Buyer(5000);
             Salesman salesman = new Salesman(10000);
 
+            salesman.InitProductList();
+
             while (isWork)
             {
-                ShowMenu();
+                Console.Clear();
+                Console.WriteLine("Магазин товаров 'НАЙДЕТСЯ ВСЁ!'\n");
+                Console.WriteLine("\n\nМеню работы с магазином:");
+                Console.WriteLine("1 - Показать весь ассортимент товаров.");
+                Console.WriteLine("2 - Купить выбранный товар.");
+                Console.WriteLine("3 - Посмотреть список купленных товаров.");
+                Console.WriteLine("4 - Выход.\n");
                 Console.SetCursorPosition(0, 2);
                 Console.Write("Кол-во денег у продавца:");
                 salesman.ShowMoney();
@@ -38,11 +68,11 @@ namespace IJunior_OOP_6
                 switch (userInput)
                 {
                     case ShowAllProductsCommand:
-                        shop.ShowProductList();
+                        salesman.ShowProductList();
                         break;
 
                     case BuyProductCommand:
-                        shop.PurchaseGoods(buyer, salesman);
+                        salesman.PurchaseGoods(buyer, salesman);
                         break;
 
                     case ShowBuyerProductCommand:
@@ -51,7 +81,7 @@ namespace IJunior_OOP_6
                         break;
 
                     case ExitShopCommand:
-                        Console.WriteLine("До свиданья, спасибо за покупки!");
+                        Console.WriteLine("До свиданья, спасибо за покупку!");
                         isWork = false;
                         break;
 
@@ -65,36 +95,46 @@ namespace IJunior_OOP_6
                 Console.ReadKey();
             }
         }
+    }
 
-        static void ShowMenu()
+    class Person
+    {
+        public Person(int money)
         {
-            Console.Clear();
-            Console.WriteLine("Магазин товаров 'НАЙДЕТСЯ ВСЁ!'\n");
-            Console.WriteLine("\n\nМеню работы с магазином:");
-            Console.WriteLine("1 - Показать весь ассортимент товаров.");
-            Console.WriteLine("2 - Купить выбранный товар.");
-            Console.WriteLine("3 - Посмотреть список купленных товаров.");
-            Console.WriteLine("4 - Выход.\n");
+            Money = money;
+        }
+
+        public int Money { get; set; }
+
+        public void Buy(int price, int quantity)
+        {
+            Money += price * quantity;
+        }
+
+        public void ShowMoney()
+        {
+            Console.WriteLine(Money);
         }
     }
 
-    class Shop : Produce
+    class Salesman : Person
     {
-        private  List<Produce> _produce = new List<Produce>();
+        private List<Counter> _produce = new List<Counter>();
+        public Salesman(int money) : base(money) { }
 
-        public Shop()
+        public void InitProductList()
         {
-            _produce.Add(new Produce(new Product("Хлеб", 20), 10));
-            _produce.Add(new Produce(new Product("Батон", 30), 10));
-            _produce.Add(new Produce(new Product("Пила", 100), 5));
-            _produce.Add(new Produce(new Product("Зелье", 50), 10));
-            _produce.Add(new Produce(new Product("Меч", 500), 2));
-            _produce.Add(new Produce(new Product("Шлем", 300), 4));
-            _produce.Add(new Produce(new Product("Наручни", 250), 2));
-            _produce.Add(new Produce(new Product("Сапоги", 200), 4));
-            _produce.Add(new Produce(new Product("Кольчуга", 1000), 2));
+            _produce.Add(new Counter(new Product("Хлеб", 20), 10));
+            _produce.Add(new Counter(new Product("Батон", 30), 10));
+            _produce.Add(new Counter(new Product("Пила", 100), 5));
+            _produce.Add(new Counter(new Product("Зелье", 50), 10));
+            _produce.Add(new Counter(new Product("Меч", 500), 2));
+            _produce.Add(new Counter(new Product("Шлем", 300), 4));
+            _produce.Add(new Counter(new Product("Наручни", 250), 2));
+            _produce.Add(new Counter(new Product("Сапоги", 200), 4));
+            _produce.Add(new Counter(new Product("Кольчуга", 1000), 2));
         }
-      
+
         public void PurchaseGoods(Buyer buyer, Salesman salesman)
         {
             ShowProductList();
@@ -102,23 +142,24 @@ namespace IJunior_OOP_6
             Console.SetCursorPosition(0, 11);
             Console.Write("Введите номер покупаемого товара:\n>");
 
-            int inputGoods = ValidateInt();
+            int inputGoods = Tools.ValidateInt();
 
             if (inputGoods > 0 && inputGoods <= _produce.Count)
             {
+
                 Console.SetCursorPosition(0, 13);
                 Console.Write("  Введите количество покупаемого товара:\n>");
 
-                int inputQuantity = ValidateInt();
+                int inputQuantity = Tools.ValidateInt();
 
                 if (inputQuantity <= _produce[inputGoods - 1].Quantity)
                 {
                     _produce[inputGoods - 1].Quantity -= inputQuantity;
-                    buyer.Buy(_produce[inputGoods - 1].Product.Price, inputQuantity);
-                    salesman.Buy(_produce[inputGoods - 1].Product.Price, inputQuantity);
-                    buyer.PutBag(_produce[inputGoods-1].Product.Name, _produce[inputGoods - 1].Product.Price, inputQuantity);
+                    buyer.Buy(-_produce[inputGoods - 1].Product.Price, inputQuantity);
+                    Buy(_produce[inputGoods - 1].Product.Price, inputQuantity);
+                    buyer.PutBag(_produce[inputGoods - 1].Product.Name, _produce[inputGoods - 1].Product.Price, inputQuantity);
 
-                    if (_produce[inputGoods - 1].Quantity == 0) 
+                    if (_produce[inputGoods - 1].Quantity == 0)
                     {
                         _produce.RemoveAt(inputGoods - 1);
                     }
@@ -147,15 +188,15 @@ namespace IJunior_OOP_6
                 Console.WriteLine("\nТовары в наличии: ");
                 int index = 0;
 
-                foreach (Produce produce in _produce)
+                foreach (Counter counter in _produce)
                 {
                     index++;
                     Console.SetCursorPosition(1, 15 + index);
-                    Console.Write($"{index}.{produce.Product.Name}");
+                    Console.Write($"{index}.{counter.Product.Name}");
                     Console.SetCursorPosition(18, 15 + index);
-                    Console.Write($"В наличии: {produce.Quantity} шт.");
+                    Console.Write($"В наличии: {counter.Quantity} шт.");
                     Console.SetCursorPosition(40, 15 + index);
-                    Console.Write($"Цена: {produce.Product.Price}\n");
+                    Console.Write($"Цена: {counter.Product.Price}\n");
                 }
             }
             else
@@ -163,58 +204,18 @@ namespace IJunior_OOP_6
                 Console.WriteLine("\nТоваров нет!");
             }
         }
-
-        private static int ValidateInt()
-        {
-            int result;
-
-            while (int.TryParse(Console.ReadLine(), out result) == false)
-            {
-                Console.WriteLine("Необходимо ввести целое число.");
-            }
-
-            return result;
-        }
-    }
-
-    class Person
-    {
-        public Person(int money)
-        {
-            Money = money;
-        }
-
-        public int Money { get; set; }
-
-        public void ShowMoney()
-        {
-            Console.WriteLine(Money);
-        }
-    }
-
-    class Salesman : Person
-    {
-        public Salesman(int money) : base(money) {}
-
-        public void Buy(int price, int quantity)
-        {
-            Money += price * quantity;
-        }
+        
     }
 
     class Buyer : Person
     {
-        private List<Produce> _bag = new List<Produce>();
-        public Buyer(int money) : base(money) { }
+        private List<Counter> _bag = new List<Counter>();
 
-        public void Buy(int price, int quantity)
-        {
-            Money -= price * quantity;
-        }
+        public Buyer(int money) : base(money) { }
 
         public void PutBag(string name, int price, int quantity)
         {
-            _bag.Add(new Produce(new Product(name, price), quantity));
+            _bag.Add(new Counter(new Product(name, price), quantity));
         }
 
         public void ShowProductBuye()
@@ -223,15 +224,13 @@ namespace IJunior_OOP_6
             {
                 int index = 0;
 
-                foreach (Produce bag in _bag)
+                foreach (Counter bag in _bag)
                 {
                     index++;
                     Console.SetCursorPosition(1, 12 + index);
                     Console.Write($"{index}.{bag.Product.Name}");
                     Console.SetCursorPosition(18, 12 + index);
-                    Console.Write($"В наличии: {bag.Quantity} шт.");
-                    Console.SetCursorPosition(40, 12 + index);
-                    Console.Write($"Цена: {bag.Product.Price}\n");
+                    Console.Write($"В наличии: {bag.Quantity} шт.\n");
                 }
             }
             else
@@ -253,9 +252,9 @@ namespace IJunior_OOP_6
         public int Price { get; private set; }
     }
 
-    class Produce
+    class Counter
     {
-        public Produce(Product product, int quantity)
+        public Counter(Product product, int quantity)
         {
             Product = product;
             Quantity = quantity;
