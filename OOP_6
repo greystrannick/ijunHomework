@@ -26,6 +26,7 @@ namespace IJunior_OOP_6
             return result;
         }
     }
+
     class Shop
     {
         public void WorkShop()
