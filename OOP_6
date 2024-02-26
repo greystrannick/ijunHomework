@@ -39,7 +39,7 @@ namespace IJunior_OOP_6
 
             Buyer buyer = new Buyer(5000);
             Salesman salesman = new Salesman(10000);
-
+           
             salesman.InitProductList();
 
             while (isWork)
@@ -77,11 +77,11 @@ namespace IJunior_OOP_6
 
                     case ShowBuyerProductCommand:
                         Console.WriteLine("В вашей корзине:");
-                        buyer.ShowProductBuye();
+                        buyer.ShowProductList();
                         break;
 
                     case ExitShopCommand:
-                        Console.WriteLine("До свиданья, спасибо за покупку!");
+                        Console.WriteLine("До свиданья, спасибо за покупки!");
                         isWork = false;
                         break;
 
@@ -115,6 +115,31 @@ namespace IJunior_OOP_6
         public void ShowMoney()
         {
             Console.WriteLine(Money);
+        }
+
+        public void ShowProductList()
+        {
+            if (produce.Count > 0)
+            {
+                Console.SetCursorPosition(1, 14);
+                Console.WriteLine("\nТовары в наличии: ");
+                int index = 0;
+
+                foreach (Cell cell in produce)
+                {
+                    index++;
+                    Console.SetCursorPosition(1, 15 + index);
+                    Console.Write($"{index}.{cell.Product.Name}");
+                    Console.SetCursorPosition(18, 15 + index);
+                    Console.Write($"В наличии: {cell.Quantity} шт.");
+                    Console.SetCursorPosition(40, 15 + index);
+                    Console.Write($"Цена: {cell.Product.Price}\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nТоваров нет!");
+            }
         }
     }
 
@@ -187,31 +212,6 @@ namespace IJunior_OOP_6
                 Console.WriteLine("Такого товара нет!");
             }
         }
-
-        public void ShowProductList()
-        {
-            if (produce.Count > 0)
-            {
-                Console.SetCursorPosition(1, 14);
-                Console.WriteLine("\nТовары в наличии: ");
-                int index = 0;
-
-                foreach (Cell cell in produce)
-                {
-                    index++;
-                    Console.SetCursorPosition(1, 15 + index);
-                    Console.Write($"{index}.{cell.Product.Name}");
-                    Console.SetCursorPosition(18, 15 + index);
-                    Console.Write($"В наличии: {cell.Quantity} шт.");
-                    Console.SetCursorPosition(40, 15 + index);
-                    Console.Write($"Цена: {cell.Product.Price}\n");
-                }
-            }
-            else
-            {
-                Console.WriteLine("\nТоваров нет!");
-            }
-        }
     }
 
     class Buyer : Person
@@ -221,27 +221,6 @@ namespace IJunior_OOP_6
         public void PutBag(string name, int price, int quantity)
         {
             produce.Add(new Cell(new Product(name, price), quantity));
-        }
-
-        public void ShowProductBuye()
-        {
-            if (produce.Count > 0)
-            {
-                int index = 0;
-
-                foreach (Cell bag in produce)
-                {
-                    index++;
-                    Console.SetCursorPosition(1, 12 + index);
-                    Console.Write($"{index}.{bag.Product.Name}");
-                    Console.SetCursorPosition(18, 12 + index);
-                    Console.Write($"В наличии: {bag.Quantity} шт.\n");
-                }
-            }
-            else
-            {
-                Console.WriteLine("\nТоваров нет!");
-            }
         }
     }
 
