@@ -40,6 +40,7 @@ namespace IJunior_OOP_6
 
             Buyer buyer = new Buyer(5000);
             Salesman salesman = new Salesman(10000);
+            Cell cell = new Cell();
            
             salesman.InitProductList();
 
@@ -73,7 +74,7 @@ namespace IJunior_OOP_6
                         break;
 
                     case BuyProductCommand:
-                        salesman.PurchaseGoods(buyer, salesman);
+                        salesman.PurchaseGoods(buyer, cell);
                         break;
 
                     case ShowBuyerProductCommand:
@@ -161,7 +162,7 @@ namespace IJunior_OOP_6
             produce.Add(new Cell(new Product("Кольчуга", 1000), 2));
         }
 
-        public void PurchaseGoods(Buyer buyer, Salesman salesman)
+        public void PurchaseGoods(Buyer buyer, Cell cell)
         {
             ShowProductList();
 
@@ -192,7 +193,7 @@ namespace IJunior_OOP_6
                     }
                     else
                     {
-                        produce[inputGoods - 1].Quantity -= inputQuantity;
+                        cell.DecreaseAmount(this, inputGoods, inputQuantity);
                         buyer.Buy(-produce[inputGoods - 1].Product.Price, inputQuantity);
                         Buy(produce[inputGoods - 1].Product.Price, inputQuantity);
                         buyer.PutBag(produce[inputGoods - 1].Product.Name, produce[inputGoods - 1].Product.Price, inputQuantity);
@@ -239,6 +240,10 @@ namespace IJunior_OOP_6
 
     class Cell
     {
+        public Cell()
+        {
+        }
+
         public Cell(Product product, int quantity)
         {
             Product = product;
@@ -246,6 +251,11 @@ namespace IJunior_OOP_6
         }
 
         public Product Product { get; private set; }
-        public int Quantity { get; set; }
+        public int Quantity { get; private set; }
+
+        public void DecreaseAmount(Salesman salesman, int inputGoods, int inputQuantity)
+        {
+            salesman.produce[inputGoods - 1].Quantity -= inputQuantity;
+        }
     }
 }
