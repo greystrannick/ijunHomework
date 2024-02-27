@@ -38,10 +38,10 @@ namespace IJunior_OOP_6
 
             bool isWork = true;
 
-            Buyer buyer = new Buyer(5000);
+            Buyer buyer = new Buyer(500);
             Salesman salesman = new Salesman(10000);
             Cell cell = new Cell();
-           
+
             salesman.InitProductList();
 
             while (isWork)
@@ -166,52 +166,59 @@ namespace IJunior_OOP_6
         {
             ShowProductList();
 
-            Console.SetCursorPosition(0, 11);
-            Console.Write("Введите номер покупаемого товара:\n>");
-
-            int inputGoods = Tools.ValidateInt();
-
-            if (inputGoods > 0 && inputGoods <= produce.Count)
+            if (buyer.Money == 0)
             {
+                Console.SetCursorPosition(1, 26);
+                Console.WriteLine("У вас не хватает денег для покупки товара!");
+            }
+            else
+            { 
+                Console.SetCursorPosition(0, 11);
+                Console.Write("Введите номер покупаемого товара:\n>");
 
-                Console.SetCursorPosition(0, 13);
-                Console.Write("  Введите количество покупаемого товара:\n>");
+                int inputGoods = Tools.ValidateInt();
 
-                int inputQuantity = Tools.ValidateInt();
-
-                if (inputQuantity * produce[inputGoods - 1].Product.Price > buyer.Money)
+                if (inputGoods > 0 && inputGoods <= produce.Count)
                 {
-                    Console.SetCursorPosition(1, 26);
-                    Console.WriteLine("У вас не хватает денег для покупки товара!");
-                }
-                else
-                {
-                    if (inputQuantity > produce[inputGoods - 1].Quantity)
+                    Console.SetCursorPosition(0, 13);
+                    Console.Write(" Введите количество покупаемого товара:\n>");
+
+                    int inputQuantity = Tools.ValidateInt();
+
+                    if (inputQuantity * produce[inputGoods - 1].Product.Price > buyer.Money)
                     {
                         Console.SetCursorPosition(1, 26);
-                        Console.WriteLine("Такого количества товара нет!");
+                        Console.WriteLine("У вас не хватает денег для покупки товара!");
                     }
                     else
                     {
-                        cell.DecreaseAmount(this, inputGoods, inputQuantity);
-                        buyer.Buy(-produce[inputGoods - 1].Product.Price, inputQuantity);
-                        Buy(produce[inputGoods - 1].Product.Price, inputQuantity);
-                        buyer.PutBag(produce[inputGoods - 1].Product.Name, produce[inputGoods - 1].Product.Price, inputQuantity);
-
-                        if (produce[inputGoods - 1].Quantity == 0)
+                        if (inputQuantity > produce[inputGoods - 1].Quantity)
                         {
-                            produce.RemoveAt(inputGoods - 1);
+                            Console.SetCursorPosition(1, 26);
+                            Console.WriteLine("Такого количества товара нет!");
                         }
+                        else
+                        {
+                            cell.DecreaseAmount(this, inputGoods, inputQuantity);
+                            buyer.Buy(-produce[inputGoods - 1].Product.Price, inputQuantity);
+                            Buy(produce[inputGoods - 1].Product.Price, inputQuantity);
+                            buyer.PutBag(produce[inputGoods - 1].Product.Name, produce[inputGoods - 1].Product.Price, inputQuantity);
 
-                        ShowProductList();
-                        Console.WriteLine("Спасибо, пиятно иметь дело с хорошим покупателем!!!");
+                            if (produce[inputGoods - 1].Quantity == 0)
+                            {
+                                produce.RemoveAt(inputGoods - 1);
+                            }
+
+                            ShowProductList();
+                            Console.WriteLine("Спасибо, пиятно иметь дело с хорошим покупателем!!!");
+                        }
                     }
                 }
-            }
-            else
-            {
-                Console.SetCursorPosition(1, 26);
-                Console.WriteLine("Такого товара нет!");
+                else
+                {
+                    Console.SetCursorPosition(1, 26);
+                    Console.WriteLine("Такого товара нет!");
+                }
             }
         }
     }
