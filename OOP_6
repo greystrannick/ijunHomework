@@ -148,7 +148,7 @@ namespace IJunior_OOP_6
 
                     int inputQuantity = Tools.ValidateInt();
 
-                    _salesman.GetAndDecreaseCell(indexCell, inputQuantity, _buyer.Money, out string name, out int price, out bool isBuy);
+                    _salesman.GetCell(indexCell, inputQuantity, _buyer.Money, out string name, out int price, out bool isBuy);
 
                     if (isBuy)
                     {
@@ -217,7 +217,7 @@ namespace IJunior_OOP_6
             Produce.Add(new Cell(new Product("Кольчуга", 1000), 2));
         }
 
-        public void GetAndDecreaseCell(int indexCell, int inputQuantity, int buyerMoney, out string name, out int price, out bool isBuy)
+        public void GetCell(int indexCell, int inputQuantity, int buyerMoney, out string name, out int price, out bool isBuy)
         {
             isBuy = false;
             name = null;
@@ -244,13 +244,6 @@ namespace IJunior_OOP_6
                     Money += Produce[indexCell - 1].Product.Price * inputQuantity;
                     Console.SetCursorPosition(1, 26);
                     Console.WriteLine("Спасибо, приятно иметь дело с хорошим покупателем!!!");
-
-                    int kolvo = Produce[indexCell - 1].Quantity;
-
-                    if (kolvo == 0)
-                    {
-                        Produce.RemoveAt(indexCell - 1);
-                    }
 
                     isBuy = true;
                 }
