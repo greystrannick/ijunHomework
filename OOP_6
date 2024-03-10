@@ -154,7 +154,7 @@ namespace IJunior_OOP_6
                     {
                         _buyer.Buy(name, price, inputQuantity);
                         cell.DecreaseQuantity(inputQuantity);
-                        _salesman.outOfStock(indexCell);
+                        _salesman.OutOfStock(indexCell);
                     }
                 }
             }
@@ -250,7 +250,7 @@ namespace IJunior_OOP_6
             }
         }
 
-        public void outOfStock(int indexCell)
+        public void OutOfStock(int indexCell)
         {
             if (Produce[indexCell - 1].Quantity == 0)
             {
@@ -284,15 +284,15 @@ namespace IJunior_OOP_6
 
         public void Buy(string name, int price, int inputQuantity)
         {
+            Money -= price * inputQuantity;
+
             if (FindCell(name, out Cell cell))
             {
-                Money -= price * inputQuantity;
                 cell.IncreaseQuantity(inputQuantity);
             }
             else
             {
                 Produce.Add(new Cell(new Product(name, price), inputQuantity));
-                Money -= price * inputQuantity;
             }
         }
 
