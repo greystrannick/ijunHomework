@@ -7,8 +7,69 @@ namespace IJunior_OOP_6
     {
         static void Main(string[] args)
         {
+            const string ShowAllProductsCommand = "1";
+            const string BuyProductCommand = "2";
+            const string ShowBuyerProductCommand = "3";
+            const string ExitShopCommand = "4";
+
+            bool isWork = true;
+
             Shop shop = new Shop();
-            shop.WorkShop();
+
+            while (isWork)
+            {
+                Console.Clear();
+                Console.WriteLine("Магазин товаров 'НАЙДЕТСЯ ВСЁ!'\n");
+                Console.WriteLine("\n\nМеню работы с магазином:");
+                Console.WriteLine($"{ShowAllProductsCommand} - Показать весь ассортимент товаров.");
+                Console.WriteLine($"{BuyProductCommand} - Купить выбранный товар.");
+                Console.WriteLine($"{ShowBuyerProductCommand} - Посмотреть корзину купленных товаров.");
+                Console.WriteLine($"{ExitShopCommand} - Выход.\n");
+
+                Console.SetCursorPosition(0, 2);
+                Console.Write("Кол-во денег у продавца: ");
+                int salesmanMoney = shop.ShowSalesmanMoney();
+                Console.Write(salesmanMoney);
+
+                Console.SetCursorPosition(35, 2);
+                Console.Write("Кол-во денег у покупателя: ");
+                int buyerMoney = shop.ShowBuyerMoney();
+                Console.WriteLine(buyerMoney);
+
+                Console.SetCursorPosition(0, 9);
+                Console.Write("Введите команду:\n>");
+                Console.Write("   ");
+                Console.SetCursorPosition(1, 10);
+                string userInput = Console.ReadLine();
+
+                switch (userInput)
+                {
+                    case ShowAllProductsCommand:
+                        shop.ShowAssortiment("salesman");
+                        break;
+
+                    case BuyProductCommand:
+                        shop.ShopWork();
+                        break;
+
+                    case ShowBuyerProductCommand:
+                        shop.ShowAssortiment("buyer");
+                        break;
+
+                    case ExitShopCommand:
+                        Console.WriteLine("До свиданья, спасибо за покупки!");
+                        isWork = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Такой команды нет, нажмите любую клавишу для продолжения...");
+                        Console.ReadKey();
+                        break;
+                }
+
+                Console.Write("Нажмите любую клавишу для продолжения...");
+                Console.ReadKey();
+            }
         }
     }
 
@@ -29,113 +90,104 @@ namespace IJunior_OOP_6
 
     class Shop
     {
-        public void WorkShop()
+        private Salesman _salesman;
+        private Buyer _buyer;
+
+        public Shop()
         {
-            const string ShowAllProductsCommand = "1";
-            const string BuyProductCommand = "2";
-            const string ShowBuyerProductCommand = "3";
-            const string ExitShopCommand = "4";
+            _buyer = new Buyer(5000);
+            _salesman = new Salesman(10000);
 
-            bool isWork = true;
+            _salesman.InitProductList();
+        }
 
-            Buyer buyer = new Buyer(500);
-            Salesman salesman = new Salesman(10000);
-            Cell cell = new Cell();
-
-            salesman.InitProductList();
-
-            while (isWork)
+        public void ShowAssortiment(string person)
+        {
+            switch (person)
             {
-                Console.Clear();
-                Console.WriteLine("Магазин товаров 'НАЙДЕТСЯ ВСЁ!'\n");
-                Console.WriteLine("\n\nМеню работы с магазином:");
-                Console.WriteLine($"{ShowAllProductsCommand} - Показать весь ассортимент товаров.");
-                Console.WriteLine($"{BuyProductCommand} - Купить выбранный товар.");
-                Console.WriteLine($"{ShowBuyerProductCommand} - Посмотреть корзину купленных товаров.");
-                Console.WriteLine($"{ExitShopCommand} - Выход.\n");
-                Console.SetCursorPosition(0, 2);
-                Console.Write("Кол-во денег у продавца:");
-                salesman.ShowMoney();
+                case "salesman":
+                    _salesman.ShowProductList();
+                    break;
 
-                Console.SetCursorPosition(35, 2);
-                Console.Write("Кол-во денег у покупателя:");
-                buyer.ShowMoney();
+                case "buyer":
+                    _buyer.ShowProductList();
+                    break;
+            }
+        }
 
-                Console.SetCursorPosition(0, 9);
-                Console.Write("Введите команду:\n>");
-                Console.Write("   ");
-                Console.SetCursorPosition(1, 10);
-                string userInput = Console.ReadLine();
+        public int ShowSalesmanMoney()
+        {
+            return _salesman.Money;
+        }
 
-                switch (userInput)
+        public int ShowBuyerMoney()
+        {
+            return _buyer.Money;
+        }
+
+        public void ShopWork()
+        {
+            ShowAssortiment("salesman");
+
+            if (_buyer.Money <= 0)
+            {
+                Console.SetCursorPosition(1, 26);
+                Console.WriteLine("У вас нет денег для покупки товара!");
+            }
+            else
+            {
+                Console.SetCursorPosition(0, 11);
+                Console.Write("Введите номер покупаемого товара:\n>");
+
+                int indexCell = Tools.ValidateInt();
+
+                if (_salesman.WithinRange(out Cell cell, indexCell))
                 {
-                    case ShowAllProductsCommand:
-                        salesman.ShowProductList();
-                        break;
+                    Console.SetCursorPosition(0, 13);
+                    Console.Write(" Введите количество покупаемого товара:\n>");
 
-                    case BuyProductCommand:
-                        salesman.PurchaseGoods(buyer, cell);
-                        break;
+                    int inputQuantity = Tools.ValidateInt();
 
-                    case ShowBuyerProductCommand:
-                        Console.WriteLine("В вашей корзине:");
-                        buyer.ShowProductList();
-                        break;
+                    _salesman.GetAndDecreaseCell(indexCell, inputQuantity, _buyer.Money, out string name, out int price, out bool isBuy);
 
-                    case ExitShopCommand:
-                        Console.WriteLine("До свиданья, спасибо за покупки!");
-                        isWork = false;
-                        break;
-
-                    default:
-                        Console.WriteLine("Такой команды нет, нажмите любую клавишу для продолжения...");
-                        Console.ReadKey();
-                        break;
+                    if (isBuy)
+                    {
+                        _buyer.Buy(name, price, inputQuantity);
+                        cell.DecreaseQuantity(inputQuantity);
+                        _salesman.outOfStock(indexCell);
+                    }
                 }
-
-                Console.WriteLine("Нажмите любую клавишу для продолжения...");
-                Console.ReadKey();
             }
         }
     }
 
     class Person
     {
-        public List<Cell> produce = new List<Cell>();
+        protected List<Cell> Produce = new List<Cell>();
         public Person(int money)
         {
             Money = money;
         }
 
-        public int Money { get; private set; }
-
-        public void Buy(int price, int quantity)
-        {
-            Money += price * quantity;
-        }
-
-        public void ShowMoney()
-        {
-            Console.WriteLine(Money);
-        }
+        public int Money { get; protected set; }
 
         public void ShowProductList()
         {
-            if (produce.Count > 0)
+            if (Produce.Count > 0)
             {
                 Console.SetCursorPosition(1, 14);
                 Console.WriteLine("\nТовары в наличии: ");
-                int index = 0;
+                int index = 1;
 
-                foreach (Cell cell in produce)
+                foreach (Cell cell in Produce)
                 {
-                    index++;
                     Console.SetCursorPosition(1, 15 + index);
                     Console.Write($"{index}.{cell.Product.Name}");
                     Console.SetCursorPosition(18, 15 + index);
                     Console.Write($"В наличии: {cell.Quantity} шт.");
                     Console.SetCursorPosition(40, 15 + index);
                     Console.Write($"Цена: {cell.Product.Price}\n");
+                    index++;
                 }
             }
             else
@@ -147,89 +199,124 @@ namespace IJunior_OOP_6
 
     class Salesman : Person
     {
-        public Salesman(int money) : base(money) { }
+        public Salesman(int money) : base(money)
+        {
+            Money = money;
+        }
 
         public void InitProductList()
         {
-            produce.Add(new Cell(new Product("Хлеб", 20), 10));
-            produce.Add(new Cell(new Product("Батон", 30), 10));
-            produce.Add(new Cell(new Product("Пила", 100), 5));
-            produce.Add(new Cell(new Product("Зелье", 50), 10));
-            produce.Add(new Cell(new Product("Меч", 500), 2));
-            produce.Add(new Cell(new Product("Шлем", 300), 4));
-            produce.Add(new Cell(new Product("Наручни", 250), 2));
-            produce.Add(new Cell(new Product("Сапоги", 200), 4));
-            produce.Add(new Cell(new Product("Кольчуга", 1000), 2));
+            Produce.Add(new Cell(new Product("Хлеб", 20), 10));
+            Produce.Add(new Cell(new Product("Батон", 30), 10));
+            Produce.Add(new Cell(new Product("Пила", 100), 5));
+            Produce.Add(new Cell(new Product("Зелье", 50), 10));
+            Produce.Add(new Cell(new Product("Меч", 500), 2));
+            Produce.Add(new Cell(new Product("Шлем", 300), 4));
+            Produce.Add(new Cell(new Product("Наручни", 250), 2));
+            Produce.Add(new Cell(new Product("Сапоги", 200), 4));
+            Produce.Add(new Cell(new Product("Кольчуга", 1000), 2));
         }
 
-        public void PurchaseGoods(Buyer buyer, Cell cell)
+        public void GetAndDecreaseCell(int indexCell, int inputQuantity, int buyerMoney, out string name, out int price, out bool isBuy)
         {
-            ShowProductList();
+            isBuy = false;
+            name = null;
+            price = 0;
 
-            if (buyer.Money == 0)
+            if (inputQuantity * Produce[indexCell - 1].Product.Price > buyerMoney)
             {
                 Console.SetCursorPosition(1, 26);
                 Console.WriteLine("У вас не хватает денег для покупки товара!");
+                return;
             }
             else
-            { 
-                Console.SetCursorPosition(0, 11);
-                Console.Write("Введите номер покупаемого товара:\n>");
-
-                int inputGoods = Tools.ValidateInt();
-
-                if (inputGoods > 0 && inputGoods <= produce.Count)
+            {
+                if (inputQuantity > Produce[indexCell - 1].Quantity)
                 {
-                    Console.SetCursorPosition(0, 13);
-                    Console.Write(" Введите количество покупаемого товара:\n>");
-
-                    int inputQuantity = Tools.ValidateInt();
-
-                    if (inputQuantity * produce[inputGoods - 1].Product.Price > buyer.Money)
-                    {
-                        Console.SetCursorPosition(1, 26);
-                        Console.WriteLine("У вас не хватает денег для покупки товара!");
-                    }
-                    else
-                    {
-                        if (inputQuantity > produce[inputGoods - 1].Quantity)
-                        {
-                            Console.SetCursorPosition(1, 26);
-                            Console.WriteLine("Такого количества товара нет!");
-                        }
-                        else
-                        {
-                            cell.DecreaseAmount(this, inputGoods, inputQuantity);
-                            buyer.Buy(-produce[inputGoods - 1].Product.Price, inputQuantity);
-                            Buy(produce[inputGoods - 1].Product.Price, inputQuantity);
-                            buyer.PutBag(produce[inputGoods - 1].Product.Name, produce[inputGoods - 1].Product.Price, inputQuantity);
-
-                            if (produce[inputGoods - 1].Quantity == 0)
-                            {
-                                produce.RemoveAt(inputGoods - 1);
-                            }
-
-                            ShowProductList();
-                            Console.WriteLine("Спасибо, пиятно иметь дело с хорошим покупателем!!!");
-                        }
-                    }
+                    Console.SetCursorPosition(1, 26);
+                    Console.WriteLine("Такого количества товара нет!");
+                    return;
                 }
                 else
                 {
+                    name = Produce[indexCell - 1].Product.Name;
+                    price = Produce[indexCell - 1].Product.Price;
+                    Money += Produce[indexCell - 1].Product.Price * inputQuantity;
                     Console.SetCursorPosition(1, 26);
-                    Console.WriteLine("Такого товара нет!");
+                    Console.WriteLine("Спасибо, приятно иметь дело с хорошим покупателем!!!");
+
+                    int kolvo = Produce[indexCell - 1].Quantity;
+
+                    if (kolvo == 0)
+                    {
+                        Produce.RemoveAt(indexCell - 1);
+                    }
+
+                    isBuy = true;
                 }
+            }
+        }
+
+        public void outOfStock(int indexCell)
+        {
+            if (Produce[indexCell - 1].Quantity == 0)
+            {
+                Produce.RemoveAt(indexCell - 1);
+            }
+        }
+
+        public bool WithinRange(out Cell cell, int indexCell)
+        {
+            if (indexCell > 0 && indexCell <= Produce.Count)
+            {
+                cell = Produce[indexCell - 1];
+                return true;
+            }
+            else
+            {
+                cell = null;
+                Console.SetCursorPosition(1, 26);
+                Console.WriteLine("Такого товара нет!");
+                return false;
             }
         }
     }
 
     class Buyer : Person
     {
-        public Buyer(int money) : base(money) { }
-
-        public void PutBag(string name, int price, int quantity)
+        public Buyer(int money) : base(money)
         {
-            produce.Add(new Cell(new Product(name, price), quantity));
+            Money = money;
+        }
+
+        public void Buy(string name, int price, int inputQuantity)
+        {
+            if (FindCell(name, out Cell cell))
+            {
+                Money -= price * inputQuantity;
+                cell.IncreaseQuantity(inputQuantity);
+            }
+            else
+            {
+                Produce.Add(new Cell(new Product(name, price), inputQuantity));
+                Money -= price * inputQuantity;
+            }
+        }
+
+        private bool FindCell(string name, out Cell findCell)
+        {
+            findCell = null;
+
+            foreach (var cell in Produce)
+            {
+                if (cell.Product.Name == name)
+                {
+                    findCell = cell;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
@@ -247,10 +334,6 @@ namespace IJunior_OOP_6
 
     class Cell
     {
-        public Cell()
-        {
-        }
-
         public Cell(Product product, int quantity)
         {
             Product = product;
@@ -260,9 +343,7 @@ namespace IJunior_OOP_6
         public Product Product { get; private set; }
         public int Quantity { get; private set; }
 
-        public void DecreaseAmount(Salesman salesman, int inputGoods, int inputQuantity)
-        {
-            salesman.produce[inputGoods - 1].Quantity -= inputQuantity;
-        }
+        public void DecreaseQuantity(int quantity) => Quantity -= quantity;
+        public void IncreaseQuantity(int quantity) => Quantity += quantity;
     }
 }
